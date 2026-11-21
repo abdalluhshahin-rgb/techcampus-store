@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <!-- إعدادات الترميز الأساسية والتجاوب الكامل مع جميع الشاشات -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تيك كامبس | TechCampus — متجر لابتوبات وإكسسوارات الطلاب الجامعيين</title>
+
+  <!-- استدعاء خطوط Cairo و IBM Plex Sans Arabic من Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- مكتبة Tailwind CSS للتصميم العصري والمتجاوب -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'IBM Plex Sans Arabic', 'sans-serif'],
+            arabic: ['IBM Plex Sans Arabic', 'Cairo', 'sans-serif'],
+          },
+          colors: {
+            campus: {
+              950: '#040711',
+              900: '#0a0f1f',
+              850: '#0f172a',
+              800: '#162038',
+              700: '#1e2c4a',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* تخصيص شريط التمرير */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.25);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.55);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(59, 130, 246, 0.9);
+    }
+
+    /* إخفاء شريط التمرير الأفقي في القوائم مع إبقاء التمرير باللمس نشطًا */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* أنيميشن ظهور النوافذ المنبثقة */
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .animate-pop {
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* نبض الدائرة الصغيرة العائمة للشات بوت */
+    @keyframes pulseRing {
+      0%, 100% {
+        box-shadow: 0 12px 28px -4px rgba(37, 99, 235, 0.6), 0 0 0 0 rgba(56, 189, 248, 0.5);
+      }
+      50% {
+        box-shadow: 0 18px 36px -4px rgba(37, 99, 235, 0.75), 0 0 0 12px rgba(56, 189, 248, 0);
+      }
+    }
+    .chatbot-fab-pulse {
+      animation: pulseRing 2.6s infinite;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-campus-950 dark:text-slate-100 transition-colors duration-300">
+
+  <!-- ===================================================================== -->
+  <!-- إشعار عائم أنيق (Toast)                                               -->
+  <!-- ===================================================================== -->
+  <div id="toastBox" class="fixed top-20 left-1/2 -translate-x-1/2 z-[90] hidden pointer-events-none">
+    <div class="bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-md text-white text-xs sm:text-sm font-bold px-5 py-3 rounded-full shadow-2xl border border-blue-500/40 flex items-center gap-2.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+      <span id="toastText">تم التحديث</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 1. الشريط العلوي الزجاجي الثابت (Glassmorphic Sticky Navbar)          -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/85 dark:bg-campus-900/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/90 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-2.5 sm:gap-4">
+      <!-- شعار المتجر -->
+      <a href="#catalog" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-xl font-black tracking-tight text-slate-900 dark:text-white">تيك كامبس</span>
+            <span class="hidden lg:inline-block text-[10px] font-black uppercase tracking-wider bg-blue-600/15 text-blue-600 dark:text-cyan-300 border border-blue-500/30 px-2 py-0.5 rounded-full">
+              TechCampus
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">لابتوبات وإكسسوارات الطلاب الجامعيين</p>
+        </div>
+      </a>
+
+      <!-- شريط البحث الفوري -->
+      <div class="flex-1 max-w-xl">
+        <div class="relative flex items-center">
+          <svg class="w-4 h-4 text-slate-400 absolute right-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="ابحث عن لابتوب أو إكسسوار (MacBook, Logitech, Sony, Hub)..."
+            class="w-full bg-slate-100 dark:bg-campus-800 hover:bg-slate-200/70 dark:hover:bg-campus-800/80 focus:bg-white dark:focus:bg-campus-950 text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 border border-slate-200 dark:border-slate-700/80 focus:border-blue-500 rounded-xl pr-10 pl-8 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500/25 transition"
+          />
+          <button
+            id="clearSearchBtn"
+            type="button"
+            aria-label="مسح البحث"
+            class="hidden absolute left-2.5 text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs font-bold px-1.5 py-0.5 rounded cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- أزرار الشريط العلوي: الوضع الليلي، المفضلة، المقارنة، السلة -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- تبديل الوضع الليلي / النهاري -->
+        <button
+          id="themeToggleBtn"
+          type="button"
+          title="تبديل الوضع الليلي / النهاري"
+          aria-label="تبديل السمة"
+          class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-campus-800 hover:bg-slate-200 dark:hover:bg-campus-700 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-amber-300 transition cursor-pointer"
+        >
+          <svg id="iconSun" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg id="iconMoon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- زر المفضلة (Wishlist Counter) -->
+        <button
+          id="openWishlistBtn"
+          type="button"
+          title="قائمة المفضلة"
+          class="relative inline-flex items-center gap-1.5 bg-slate-100 dark:bg-campus-800 hover:bg-rose-500/15 text-slate-800 dark:text-slate-200 font-bold text-xs px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition cursor-pointer"
+        >
+          <svg class="w-4 h-4 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          <span class="hidden md:inline">المفضلة</span>
+          <span id="wishlistBadge" class="bg-rose-500 text-white text-[11px] font-black px-1.5 rounded-full">0</span>
+        </button>
+
+        <!-- زر المقارنة (Compare Counter) -->
+        <button
+          id="navCompareBtn"
+          type="button"
+          title="مقارنة الأجهزة"
+          class="hidden sm:inline-flex items-center gap-1.5 bg-slate-100 dark:bg-campus-800 hover:bg-slate-200 dark:hover:bg-campus-700 text-slate-800 dark:text-slate-200 font-bold text-xs px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition cursor-pointer"
+        >
+          <span>مقارنة</span>
+          <span id="navCompareBadge" class="bg-blue-600 text-white text-[11px] font-black px-1.5 rounded-full">0</span>
+        </button>
+
+        <!-- زر فتح السلة -->
+        <button
+          id="openCartBtn"
+          type="button"
+          class="inline-flex items-center gap-2 bg-gradient-to-l from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2.5 rounded-xl shadow-md shadow-blue-600/25 transition cursor-pointer"
+        >
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="hidden sm:inline">السلة</span>
+          <span id="cartBadge" class="bg-white text-blue-700 text-xs font-black min-w-5 h-5 px-1.5 rounded-full inline-flex items-center justify-center">
+            0
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- شريط الأقسام الرئيسية (الكل / أجهزة اللابتوب / اكسسوارات اللابتوب) -->
+    <div class="border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/90 dark:bg-campus-950/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3 overflow-x-auto no-scrollbar text-xs sm:text-sm">
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" data-type="all" class="main-type-tab px-4 py-1.5 rounded-xl font-black bg-blue-600 text-white shadow-xs transition cursor-pointer">
+            جميع المنتجات (24)
+          </button>
+          <button type="button" data-type="laptop" class="main-type-tab px-4 py-1.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-campus-800 transition cursor-pointer">
+            أجهزة اللابتوب (12)
+          </button>
+          <button type="button" data-type="accessory" class="main-type-tab px-4 py-1.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-campus-800 transition cursor-pointer">
+            اكسسوارات اللابتوب (12)
+          </button>
+        </div>
+        <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          كود خصم الطلاب: <strong class="font-black">STUDENT15</strong> (15% على كل الطلبات)
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. البانر الترويجي للطلاب (Hero Section)                              -->
+  <!-- ===================================================================== -->
+  <section class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-l from-campus-900 via-blue-950 to-indigo-950 border border-blue-500/25 text-white p-6 sm:p-9 lg:p-11 shadow-2xl">
+      <div class="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute right-8 -bottom-24 w-72 h-72 rounded-full bg-cyan-400/15 blur-3xl pointer-events-none"></div>
+
+      <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex flex-wrap items-center gap-2">
+            <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-black px-3.5 py-1 rounded-full">
+              باقة الطالب الجامعي المتكاملة
+            </span>
+            <span class="bg-white/10 text-blue-100 text-xs font-bold px-3.5 py-1 rounded-full border border-white/15">
+              استخدم كوبون <strong class="text-amber-300 font-black tracking-wider">STUDENT15</strong> لخصم 15%
+            </span>
+          </div>
+
+          <h1 class="text-2xl sm:text-4xl lg:text-[40px] font-black leading-tight">
+            جهّز مكتبك الجامعي بالكامل: لابتوبات عالمية وإكسسوارات أصلية
+          </h1>
+
+          <p class="text-slate-300 text-xs sm:text-sm lg:text-base max-w-2xl leading-relaxed">
+            تصفح 12 لابتوب من أقوى الماركات العالمية مع 12 إكسسوارًا أساسيًا للطلاب (ماوس احترافي، كيبورد ميكانيكي، سماعات عزل ضوضاء، Hub، حقائب، حوامل تبريد، وهاردات SSD) بضمان رسمي وشحن سريع لجميع المحافظات.
+          </p>
+
+          <div class="pt-2 flex flex-wrap items-center gap-3">
+            <button
+              id="heroLaptopsBtn"
+              type="button"
+              class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-extrabold text-xs sm:text-sm px-5 py-3.5 rounded-xl shadow-lg shadow-blue-600/30 transition cursor-pointer"
+            >
+              تصفح اللابتوبات (12)
+            </button>
+            <button
+              id="heroAccessoriesBtn"
+              type="button"
+              class="bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 font-black text-xs sm:text-sm px-5 py-3.5 rounded-xl shadow-lg transition cursor-pointer"
+            >
+              استكشف الإكسسوارات (12)
+            </button>
+            <button
+              id="heroPromoBtn"
+              type="button"
+              class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm px-4 py-3.5 rounded-xl transition cursor-pointer"
+            >
+              تفعيل خصم STUDENT15
+            </button>
+          </div>
+
+          <!-- شارات الثقة (Trust Badges) -->
+          <div class="pt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-white/10 text-xs">
+            <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
+              <div class="font-black text-white">24 منتج أصلي</div>
+              <div class="text-[11px] text-slate-400">لابتوبات وإكسسوارات</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
+              <div class="font-black text-emerald-400">ضمان الوكيل</div>
+              <div class="text-[11px] text-slate-400">حتى 24 شهرًا</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
+              <div class="font-black text-cyan-400">شحن مجاني</div>
+              <div class="text-[11px] text-slate-400">لجميع محافظات مصر</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
+              <div class="font-black text-amber-300">دفع عند الاستلام</div>
+              <div class="text-[11px] text-slate-400">أو تقسيط جامعي</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- عرض بصري مزدوج للابتوب والإكسسوارات -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-3">
+          <div class="col-span-2 relative rounded-2xl overflow-hidden border border-white/15 shadow-xl bg-campus-900 group h-44 sm:h-48">
+            <img
+              src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80"
+              onerror="window.applyProductFallback(this, 'TechCampus Laptops')"
+              alt="لابتوبات احترافية للطلاب"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-campus-950/90 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 right-4 left-4 flex items-center justify-between">
+              <span class="text-xs font-black text-white">أقوى أجهزة اللابتوب للدراسة والبرمجة</span>
+              <span class="text-[10px] font-black bg-blue-600 px-2.5 py-0.5 rounded-full">12 موديل</span>
+            </div>
+          </div>
+          <div class="relative rounded-2xl overflow-hidden border border-white/15 shadow-lg bg-campus-900 group h-28">
+            <img
+              src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=600&q=80"
+              onerror="window.applyProductFallback(this, 'Mouse & Desk')"
+              alt="ماوس وكيبورد إكسسوارات"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-campus-950/85 to-transparent"></div>
+            <span class="absolute bottom-2 right-2.5 text-[11px] font-extrabold text-white">ماوس وكيبورد</span>
+          </div>
+          <div class="relative rounded-2xl overflow-hidden border border-white/15 shadow-lg bg-campus-900 group h-28">
+            <img
+              src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=600&q=80"
+              onerror="window.applyProductFallback(this, 'Audio & Hubs')"
+              alt="سماعات عزل ضوضاء وإكسسوارات"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-campus-950/85 to-transparent"></div>
+            <span class="absolute bottom-2 right-2.5 text-[11px] font-extrabold text-white">سماعات و Hubs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 3. شريط الفلاتر المتقدمة وكتالوج المنتجات الموحد (24 منتج)            -->
+  <!-- ===================================================================== -->
+  <main id="catalog" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- لوحة التحكم بالفلاتر -->
+    <div class="bg-white dark:bg-campus-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 mb-7 shadow-sm space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+          <h2 id="catalogHeading" class="text-lg sm:text-2xl font-black text-slate-900 dark:text-white">
+            كتالوج تيك كامبس الشامل (لابتوبات وإكسسوارات)
+          </h2>
+          <p id="resultsCountText" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+            عرض 24 من أصل 24 منتج
+          </p>
+        </div>
+
+        <!-- شريط الميزانية + الترتيب + إعادة الضبط -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-2.5 bg-slate-100 dark:bg-campus-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs font-bold">
+            <span class="text-slate-700 dark:text-slate-200 shrink-0">السعر حتى:</span>
+            <input
+              id="budgetSlider"
+              type="range"
+              min="500"
+              max="85000"
+              step="500"
+              value="85000"
+              class="w-24 sm:w-32 accent-blue-600 cursor-pointer"
+            />
+            <span id="budgetLabel" class="text-blue-600 dark:text-cyan-400 font-black tabular-nums min-w-[78px]">
+              85,000 ج.م
+            </span>
+          </div>
+
+          <label class="flex items-center gap-2 bg-slate-100 dark:bg-campus-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200">
+            <span>ترتيب:</span>
+            <select id="sortSelect" class="bg-transparent font-extrabold text-slate-900 dark:text-white focus:outline-none cursor-pointer">
+              <option value="featured">الأكثر ملاءمة للطلاب</option>
+              <option value="priceAsc">السعر: الأقل إلى الأعلى</option>
+              <option value="priceDesc">السعر: الأعلى إلى الأقل</option>
+            </select>
+          </label>
+
+          <button
+            id="resetFiltersBtn"
+            type="button"
+            class="text-xs font-extrabold text-blue-600 dark:text-cyan-400 hover:bg-blue-500/10 border border-blue-500/30 px-3.5 py-2 rounded-xl transition cursor-pointer"
+          >
+            إعادة ضبط
+          </button>
+        </div>
+      </div>
+
+      <!-- التصنيفات الفرعية (تخصصات اللابتوب أو فئات الإكسسوارات) -->
+      <div id="subCategoryRow" class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs">
+        <!-- تُحقن ديناميكيًا حسب النوع المختار -->
+      </div>
+
+      <!-- شريط الماركات (Brand Filter Pills) -->
+      <div id="brandsRow" class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs">
+        <!-- تُحقن ديناميكيًا -->
+      </div>
+    </div>
+
+    <!-- شبكة عرض المنتجات -->
+    <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- بطاقات اللابتوبات والإكسسوارات -->
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- شريط المقارنة السفلي العائم                                           -->
+  <!-- ===================================================================== -->
+  <div id="compareFloatingBar" class="fixed bottom-5 right-5 z-40 hidden animate-pop">
+    <div class="bg-slate-900/95 dark:bg-campus-800/95 backdrop-blur-lg text-white border border-blue-500/40 rounded-2xl px-4 py-3 shadow-2xl flex items-center gap-3">
+      <div class="text-xs">
+        <span class="text-slate-300 block">قائمة المقارنة</span>
+        <strong id="compareBarCount" class="text-cyan-400 font-black">0 / 3 منتجات محددة</strong>
+      </div>
+      <button
+        id="openCompareModalBtn"
+        type="button"
+        class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold px-4 py-2 rounded-xl transition cursor-pointer"
+      >
+        قارن الآن
+      </button>
+      <button
+        id="clearCompareBarBtn"
+        type="button"
+        title="إلغاء المقارنة"
+        class="text-slate-400 hover:text-white text-xs font-bold px-1.5 py-1 cursor-pointer"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- تذييل الصفحة -->
+  <footer class="bg-white dark:bg-campus-900 border-t border-slate-200 dark:border-slate-800 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+      <div class="font-extrabold text-slate-800 dark:text-slate-200">
+        تيك كامبس | TechCampus © 2026 — متجر لابتوبات وإكسسوارات الطلاب الجامعيين في مصر
+      </div>
+      <div>
+        كود خصم الطلاب: <span class="font-black text-blue-600 dark:text-cyan-400">STUDENT15</span> • ضمان رسمي وشحن مجاني
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 4. نافذة المعاينة السريعة للمنتج (Quick-View Modal)                   -->
+  <!-- ===================================================================== -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white dark:bg-campus-900 rounded-3xl max-w-2xl w-full border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-pop">
+      <div class="relative h-52 sm:h-60 bg-slate-900">
+        <img
+          id="qvImage"
+          src=""
+          onerror="window.applyProductFallback(this, 'TechCampus')"
+          alt="صورة المنتج"
+          class="w-full h-full object-cover opacity-90"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-campus-950 via-campus-950/35 to-transparent"></div>
+        <button
+          id="closeQuickViewBtn"
+          type="button"
+          class="absolute top-4 left-4 w-9 h-9 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center font-bold cursor-pointer"
+        >
+          ✕
+        </button>
+        <div class="absolute bottom-4 right-5 left-5 text-white">
+          <div class="flex items-center gap-2">
+            <span id="qvBrand" class="text-[11px] font-black bg-blue-600 px-2.5 py-0.5 rounded-full">Brand</span>
+            <span id="qvCategory" class="text-[11px] font-bold bg-white/15 backdrop-blur-xs px-2.5 py-0.5 rounded-full">Category</span>
+          </div>
+          <h3 id="qvTitle" class="text-xl sm:text-2xl font-black mt-1">اسم المنتج</h3>
+        </div>
+      </div>
+
+      <div id="qvBody" class="p-5 sm:p-6 space-y-4 text-xs sm:text-sm max-h-[54vh] overflow-y-auto"></div>
+
+      <div class="px-6 py-4 bg-slate-50 dark:bg-campus-950 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <span class="block text-[11px] text-slate-400">سعر الطالب الجامعي</span>
+          <div id="qvPrice" class="font-black text-xl text-blue-600 dark:text-cyan-400 tabular-nums">0 ج.م</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            id="qvWishBtn"
+            type="button"
+            class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 font-bold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl transition cursor-pointer"
+          >
+            ♥ المفضلة
+          </button>
+          <button
+            id="qvCompareBtn"
+            type="button"
+            class="bg-slate-200 dark:bg-campus-800 hover:bg-slate-300 dark:hover:bg-campus-700 text-slate-800 dark:text-white font-bold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl transition cursor-pointer"
+          >
+            + مقارنة
+          </button>
+          <button
+            id="qvAddToCartBtn"
+            type="button"
+            class="bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-md transition cursor-pointer"
+          >
+            أضف للسلة
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. نافذة المقارنة الجانبية (Side-by-Side Comparison Modal)            -->
+  <!-- ===================================================================== -->
+  <div id="compareModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white dark:bg-campus-900 rounded-3xl max-w-5xl w-full max-h-[88vh] flex flex-col border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-pop">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <h3 class="text-base sm:text-lg font-black">مقارنة المواصفات جنبًا إلى جنب</h3>
+          <p class="text-[11px] text-slate-400">قارن المواصفات الأساسية والأسعار لاختيار الأنسب لدراستك</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="clearCompareModalBtn" type="button" class="text-xs font-bold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg cursor-pointer">
+            مسح الكل
+          </button>
+          <button id="closeCompareModalBtn" type="button" class="w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center text-white font-bold cursor-pointer">
+            ✕
+          </button>
+        </div>
+      </div>
+      <div id="compareTableContainer" class="p-5 sm:p-6 overflow-auto flex-1"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 6. نافذة المفضلة (Wishlist Modal)                                     -->
+  <!-- ===================================================================== -->
+  <div id="wishlistModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white dark:bg-campus-900 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden animate-pop">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-rose-400 text-lg">♥</span>
+          <h3 class="text-base sm:text-lg font-black">قائمة المفضلة المحفوظة</h3>
+        </div>
+        <button id="closeWishlistBtn" type="button" class="w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center text-white font-bold cursor-pointer">
+          ✕
+        </button>
+      </div>
+      <div id="wishlistItemsContainer" class="p-5 overflow-y-auto flex-1 space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 7. سلة التسوق الجانبية المنزلقة + ترشيح الإكسسوارات (Cart Drawer)    -->
+  <!-- ===================================================================== -->
+  <div id="cartOverlay" class="fixed inset-0 z-50 hidden bg-slate-950/65 backdrop-blur-xs flex justify-end">
+    <aside
+      class="w-full max-w-md bg-white dark:bg-campus-900 h-full shadow-2xl flex flex-col justify-between border-r border-slate-200 dark:border-slate-800"
+      role="dialog"
+      aria-label="سلة التسوق"
+    >
+      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-campus-950/70">
+        <div class="flex items-center gap-2.5">
+          <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white">سلة التسوق</h3>
+          <span id="cartDrawerCount" class="text-xs font-extrabold bg-blue-600/15 text-blue-600 dark:text-cyan-400 px-2.5 py-0.5 rounded-full">0 منتج</span>
+        </div>
+        <button
+          id="closeCartBtn"
+          type="button"
+          aria-label="إغلاق السلة"
+          class="w-8 h-8 rounded-full hover:bg-slate-200 dark:hover:bg-campus-800 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- عناصر السلة + إكسسوارات مقترحة لإكمال الباقة -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-5">
+        <div id="cartItemsContainer" class="space-y-3"></div>
+
+        <!-- قسم ترشيح الإكسسوارات السريع داخل السلة -->
+        <div id="cartUpsellSection" class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-slate-800 dark:text-slate-200">أكمل باقة اللابتوب بإكسسوارات أساسية:</span>
+            <span class="text-[10px] font-bold text-cyan-500">إضافة بضغطة واحدة</span>
+          </div>
+          <div id="cartUpsellList" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- ملخص الفاتورة وكود STUDENT15 -->
+      <div class="p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-campus-950/90 space-y-3.5">
+        <div>
+          <label for="promoInput" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+            كود خصم الطلاب: أدخل <span class="text-blue-600 dark:text-cyan-400 font-black">STUDENT15</span>
+          </label>
+          <div class="flex items-center gap-2">
+            <input
+              id="promoInput"
+              type="text"
+              placeholder="STUDENT15"
+              class="flex-1 bg-white dark:bg-campus-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm uppercase text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              id="applyPromoBtn"
+              type="button"
+              class="bg-slate-900 dark:bg-blue-600 hover:opacity-90 active:scale-95 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition cursor-pointer shrink-0"
+            >
+              تطبيق
+            </button>
+          </div>
+          <p id="promoFeedback" class="text-[11px] mt-1 font-bold"></p>
+        </div>
+
+        <div class="space-y-1.5 text-xs sm:text-sm border-t border-slate-200 dark:border-slate-800 pt-3">
+          <div class="flex items-center justify-between text-slate-600 dark:text-slate-400">
+            <span>المجموع الفرعي</span>
+            <span id="subtotalText" class="font-bold tabular-nums">0 ج.م</span>
+          </div>
+          <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
+            <span>خصم الطلاب (15%)</span>
+            <span id="discountText" class="font-bold tabular-nums">- 0 ج.م</span>
+          </div>
+          <div class="flex items-center justify-between text-base font-black text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:border-slate-800">
+            <span>الإجمالي النهائي</span>
+            <span id="totalText" class="text-blue-600 dark:text-cyan-400 tabular-nums">0 ج.م</span>
+          </div>
+        </div>
+
+        <button
+          id="checkoutBtn"
+          type="button"
+          class="w-full bg-gradient-to-l from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.99] text-white font-extrabold text-sm py-3.5 rounded-xl shadow-lg shadow-blue-600/25 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          إتمام الشراء وتأكيد الطلب
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 8. نافذة إتمام الطلب بالمحافظات المصرية وإيصال التأكيد                 -->
+  <!-- ===================================================================== -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-xs items-center justify-center p-4">
+    <div class="bg-white dark:bg-campus-900 rounded-3xl max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-2xl p-6 space-y-4 animate-pop">
+      <div id="checkoutFormStep" class="space-y-3.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-black text-slate-900 dark:text-white">بيانات الشحن الجامعي في مصر</h3>
+          <button id="cancelCheckoutBtn" type="button" class="text-slate-400 hover:text-slate-700 dark:hover:text-white font-bold cursor-pointer">✕</button>
+        </div>
+        <form id="orderConfirmForm" class="space-y-3 text-xs sm:text-sm">
+          <div>
+            <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">اسم الطالب بالكامل</label>
+            <input id="studentNameInput" type="text" required placeholder="مثال: عمر خالد محمود" class="w-full bg-slate-100 dark:bg-campus-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-blue-500" />
+          </div>
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">المحافظة</label>
+              <select id="governorateSelect" class="w-full bg-slate-100 dark:bg-campus-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 focus:outline-none focus:border-blue-500">
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="الدقهلية (المنصورة)">الدقهلية (المنصورة)</option>
+                <option value="الشرقية (الزقازيق)">الشرقية (الزقازيق)</option>
+                <option value="الغربية (طنطا)">الغربية (طنطا)</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="بني سويف">بني سويف</option>
+                <option value="أسوان">أسوان</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">رقم الموبايل</label>
+              <input id="studentPhoneInput" type="tel" required placeholder="010xxxxxxxx" class="w-full bg-slate-100 dark:bg-campus-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-blue-500" />
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">الجامعة / الكلية وعنوان الاستلام</label>
+            <input id="studentUniInput" type="text" required placeholder="مثال: كلية الهندسة - جامعة القاهرة / مدينة نصر" class="w-full bg-slate-100 dark:bg-campus-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-blue-500" />
+          </div>
+          <div class="bg-blue-500/10 border border-blue-500/25 rounded-xl p-3 flex items-center justify-between">
+            <span class="font-bold text-slate-700 dark:text-slate-200">الإجمالي المطلوب (شحن مجاني):</span>
+            <strong id="checkoutFinalAmount" class="text-blue-600 dark:text-cyan-400 font-black text-base">0 ج.م</strong>
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl shadow-lg transition cursor-pointer">
+            تأكيد الطلب واستخراج الإيصال
+          </button>
+        </form>
+      </div>
+
+      <!-- إيصال تأكيد الطلب الفوري -->
+      <div id="checkoutSuccessStep" class="hidden space-y-4 py-1">
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 rounded-full bg-emerald-500/15 text-emerald-500 border border-emerald-500/30 mx-auto flex items-center justify-center text-2xl font-black">
+            ✓
+          </div>
+          <h3 class="text-xl font-black text-slate-900 dark:text-white">تم تأكيد طلبك بنجاح!</h3>
+          <div id="orderRefBadge" class="inline-block bg-blue-600/15 text-blue-600 dark:text-cyan-400 border border-blue-500/30 rounded-full py-1 px-4 text-xs font-black">
+            رقم الإيصال: #TC-2026
+          </div>
+        </div>
+        <div id="orderReceiptBox" class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-xs space-y-2 leading-relaxed"></div>
+        <button id="doneCheckoutBtn" type="button" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm py-3 rounded-xl transition cursor-pointer">
+          العودة لمتجر تيك كامبس
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 9. الدائرة الصغيرة العائمة أسفل اليسار + مستشار تيك كامبس الذكي      -->
+  <!-- ===================================================================== -->
+  <div class="fixed bottom-5 left-5 z-50 flex flex-col items-start">
+
+    <!-- نافذة الشات بوت التفاعلي -->
+    <div
+      id="advisorChatWindow"
+      class="animate-pop hidden mb-3 w-[calc(100vw-2.5rem)] max-w-sm sm:w-96 bg-white dark:bg-campus-900 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden flex flex-col"
+      role="dialog"
+      aria-label="مستشار تيك كامبس الذكي"
+    >
+      <div class="bg-gradient-to-l from-blue-600 via-indigo-600 to-cyan-600 text-white px-4 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-sm font-black leading-tight">مستشار تيك كامبس الذكي</h4>
+            <p class="text-[11px] text-blue-100 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-300 inline-block"></span>
+              يرشح اللابتوب + الإكسسوارات المناسبة لتخصصك
+            </p>
+          </div>
+        </div>
+        <button
+          id="closeAdvisorBtn"
+          type="button"
+          aria-label="إغلاق الشات بوت"
+          class="w-7 h-7 rounded-full hover:bg-white/20 flex items-center justify-center text-white transition cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- أزرار الاختيار السريع -->
+      <div class="px-3 py-2 bg-slate-50 dark:bg-campus-950 border-b border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        <button type="button" data-prompt="تخصصي هندسة وجرافيك" class="advisor-chip shrink-0 text-[11px] font-bold bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-cyan-300 border border-blue-500/25 px-2.5 py-1 rounded-full transition cursor-pointer">
+          هندسة وجرافيك
+        </button>
+        <button type="button" data-prompt="أدرس برمجة وذكاء اصطناعي" class="advisor-chip shrink-0 text-[11px] font-bold bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-cyan-300 border border-blue-500/25 px-2.5 py-1 rounded-full transition cursor-pointer">
+          برمجة و AI
+        </button>
+        <button type="button" data-prompt="أهم إكسسوارات اللابتوب للطلاب" class="advisor-chip shrink-0 text-[11px] font-bold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-600 dark:text-cyan-300 border border-cyan-500/30 px-2.5 py-1 rounded-full transition cursor-pointer">
+          إكسسوارات أساسية
+        </button>
+        <button type="button" data-prompt="ميزانيتي 35000 جنيه" class="advisor-chip shrink-0 text-[11px] font-bold bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/25 px-2.5 py-1 rounded-full transition cursor-pointer">
+          ميزانية 35,000 ج.م
+        </button>
+      </div>
+
+      <!-- سجل الرسائل -->
+      <div id="advisorMessages" class="p-3.5 space-y-3 h-72 overflow-y-auto bg-slate-50/70 dark:bg-campus-950/60 text-xs sm:text-sm">
+        <div class="flex items-start gap-2">
+          <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-[11px] font-black shrink-0">
+            AI
+          </div>
+          <div class="bg-white dark:bg-campus-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-2xl rounded-tr-xs px-3.5 py-2.5 shadow-2xs leading-relaxed">
+            أهلاً بك في <strong>تيك كامبس</strong>! أخبرني بتخصصك (<em>هندسة، برمجة، طب وتجارة، تصميم، ألعاب</em>) أو ميزانيتك، وسأرشح لك أنسب لابتوب مع أهم الإكسسوارات المكملة له.
+          </div>
+        </div>
+      </div>
+
+      <!-- مربع الإرسال -->
+      <form id="advisorForm" class="p-2.5 bg-white dark:bg-campus-900 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+        <input
+          id="advisorInput"
+          type="text"
+          placeholder="اكتب تخصصك أو ميزانيتك أو اسأل عن الإكسسوارات..."
+          class="flex-1 bg-slate-100 dark:bg-campus-800 focus:bg-white dark:focus:bg-campus-950 border border-transparent focus:border-blue-500 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none transition"
+          required
+        />
+        <button
+          type="submit"
+          class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition cursor-pointer shrink-0"
+        >
+          إرسال
+        </button>
+      </form>
+    </div>
+
+    <!-- الدائرة الصغيرة العائمة أسفل اليسار -->
+    <button
+      id="advisorFabBtn"
+      type="button"
+      aria-label="افتح مستشار تيك كامبس الذكي"
+      title="مستشار تيك كامبس الذكي"
+      class="chatbot-fab-pulse w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 active:scale-95 text-white shadow-2xl flex items-center justify-center transition-all duration-200 cursor-pointer border-2 border-white/90"
+    >
+      <svg id="fabChatIcon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+      </svg>
+      <svg id="fabCloseIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 10. المنطق البرمجي الكامل للمتجر والإكسسوارات (JavaScript)           -->
+  <!-- ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // دالة بديلة تلقائية ترسم SVG احترافي في حال تعذر تحميل أي صورة خارجية
+      window.applyProductFallback = function (imgEl, label) {
+        imgEl.onerror = null;
+        const safeLabel = String(label || 'TechCampus').slice(0, 26);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0f172a"/>
+              <stop offset="100%" stop-color="#1d4ed8"/>
+            </linearGradient>
+          </defs>
+          <rect width="800" height="500" fill="url(#g)"/>
+          <circle cx="400" cy="210" r="78" fill="none" stroke="#38bdf8" stroke-width="6"/>
+          <text x="400" y="340" fill="#f8fafc" font-family="sans-serif" font-size="26" font-weight="bold" text-anchor="middle">${safeLabel}</text>
+        </svg>`;
+        imgEl.src = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+      };
+
+      // ===================================================================
+      // قاعدة بيانات المنتجات الكاملة: 12 لابتوب + 12 إكسسوار لابتوب
+      // ===================================================================
+      const PRODUCTS = [
+        // -------------------- 12 جهاز لابتوب --------------------
+        {
+          id: 'macbook-air-m2',
+          type: 'laptop',
+          name: 'Apple MacBook Air M2',
+          brand: 'Apple',
+          subCategory: 'طب وتجارة',
+          badge: 'الأخف والأطول بطارية',
+          image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Apple M2 8-Core',
+          spec2Label: 'الرام', spec2: '16GB Unified',
+          spec3Label: 'التخزين', spec3: '512GB SSD',
+          spec4Label: 'الشاشة', spec4: '13.6" Liquid Retina',
+          gpu: 'Apple 10-Core GPU',
+          ports: '2x Thunderbolt 4, MagSafe 3, Audio Jack',
+          battery: 'حتى 18 ساعة',
+          weight: '1.24 كجم',
+          price: 54900,
+          oldPrice: 61500,
+          summary: 'مثالي لطلاب الطب والتجارة وإدارة الأعمال والتنقل طوال اليوم في الجامعة بدون الحاجة للشاحن.'
+        },
+        {
+          id: 'macbook-pro-14-m3',
+          type: 'laptop',
+          name: 'MacBook Pro 14 M3 Pro',
+          brand: 'Apple',
+          subCategory: 'تصميم ومونتاج',
+          badge: 'أداء سينمائي خارق',
+          image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Apple M3 Pro 11-Core',
+          spec2Label: 'الرام', spec2: '18GB Unified',
+          spec3Label: 'التخزين', spec3: '512GB SSD',
+          spec4Label: 'الشاشة', spec4: '14.2" XDR 120Hz',
+          gpu: 'Apple 14-Core GPU',
+          ports: '3x Thunderbolt 4, HDMI, SDXC, MagSafe 3',
+          battery: 'حتى 17 ساعة',
+          weight: '1.55 كجم',
+          price: 79500,
+          oldPrice: 88000,
+          summary: 'الخيار الأول للمونتاج 4K، التصميم الجرافيكي الاحترافي، وتطوير التطبيقات الثقيلة.'
+        },
+        {
+          id: 'dell-xps-13-plus',
+          type: 'laptop',
+          name: 'Dell XPS 13 Plus',
+          brand: 'Dell',
+          subCategory: 'برمجة وذكاء اصطناعي',
+          badge: 'شاشة بلا حواف',
+          image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core i7-1360P',
+          spec2Label: 'الرام', spec2: '16GB LPDDR5',
+          spec3Label: 'التخزين', spec3: '512GB Gen4 SSD',
+          spec4Label: 'الشاشة', spec4: '13.4" FHD+ InfinityEdge',
+          gpu: 'Intel Iris Xe Graphics',
+          ports: '2x Thunderbolt 4 (USB-C)',
+          battery: 'حتى 13 ساعة',
+          weight: '1.23 كجم',
+          price: 56500,
+          oldPrice: 63000,
+          summary: 'تصميم معدني فائق النحافة مثالي لطلاب علوم الحاسب وهندسة البرمجيات.'
+        },
+        {
+          id: 'dell-inspiron-15',
+          type: 'laptop',
+          name: 'Dell Inspiron 15 3530',
+          brand: 'Dell',
+          subCategory: 'طب وتجارة',
+          badge: 'أفضل قيمة اقتصادية',
+          image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core i5-1335U',
+          spec2Label: 'الرام', spec2: '16GB DDR4',
+          spec3Label: 'التخزين', spec3: '512GB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '15.6" FHD 120Hz',
+          gpu: 'Intel Iris Xe Graphics',
+          ports: 'USB-C, 2x USB-A, HDMI 1.4, SD Card',
+          battery: 'حتى 9 ساعات',
+          weight: '1.66 كجم',
+          price: 25900,
+          oldPrice: 29500,
+          summary: 'لابتوب عملي واقتصادي ممتاز للأبحاث الجامعية، الأوفيس، والمحاضرات الأونلاين.'
+        },
+        {
+          id: 'lenovo-thinkpad-x1-carbon',
+          type: 'laptop',
+          name: 'Lenovo ThinkPad X1 Carbon',
+          brand: 'Lenovo',
+          subCategory: 'برمجة وذكاء اصطناعي',
+          badge: 'ملك البرمجة والاعتمادية',
+          image: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core i7-1365U',
+          spec2Label: 'الرام', spec2: '32GB LPDDR5',
+          spec3Label: 'التخزين', spec3: '1TB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '14" WUXGA IPS',
+          gpu: 'Intel Iris Xe Graphics',
+          ports: '2x Thunderbolt 4, 2x USB-A, HDMI 2.1',
+          battery: 'حتى 15 ساعة',
+          weight: '1.12 كجم',
+          price: 62000,
+          oldPrice: 69500,
+          summary: 'أفضل كيبورد للبرمجة مع رام 32GB لتشغيل Docker والأنظمة الافتراضية ونماذج AI.'
+        },
+        {
+          id: 'lenovo-ideapad-gaming-3',
+          type: 'laptop',
+          name: 'Lenovo IdeaPad Gaming 3',
+          brand: 'Lenovo',
+          subCategory: 'هندسة وجرافيك',
+          badge: 'الأكثر مبيعًا للهندسة',
+          image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'AMD Ryzen 7 7735HS',
+          spec2Label: 'الرام', spec2: '16GB DDR5',
+          spec3Label: 'التخزين', spec3: '512GB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '15.6" FHD 120Hz',
+          gpu: 'NVIDIA RTX 4050 6GB',
+          ports: 'USB-C, 2x USB-A, HDMI 2.1, RJ45 Ethernet',
+          battery: 'حتى 7 ساعات',
+          weight: '2.32 كجم',
+          price: 38900,
+          oldPrice: 44000,
+          summary: 'كارت شاشة RTX 4050 مثالي لبرامج AutoCAD وSolidWorks وRevit بسعر طلابي ممتاز.'
+        },
+        {
+          id: 'asus-rog-zephyrus-g14',
+          type: 'laptop',
+          name: 'Asus ROG Zephyrus G14',
+          brand: 'Asus',
+          subCategory: 'ألعاب وأداء عالي',
+          badge: 'قوة جبارة بحجم مدمج',
+          image: 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'AMD Ryzen 9 7940HS',
+          spec2Label: 'الرام', spec2: '16GB DDR5',
+          spec3Label: 'التخزين', spec3: '1TB PCIe 4.0 SSD',
+          spec4Label: 'الشاشة', spec4: '14" QHD+ 165Hz',
+          gpu: 'NVIDIA RTX 4060 8GB',
+          ports: 'USB4, USB-C, 2x USB-A, HDMI 2.1, MicroSD',
+          battery: 'حتى 10 ساعات',
+          weight: '1.65 كجم',
+          price: 68500,
+          oldPrice: 76000,
+          summary: 'يجمع بين سهولة الحمل في الحقيبة وقوة RTX 4060 للريندر والذكاء الاصطناعي والألعاب.'
+        },
+        {
+          id: 'asus-zenbook-14-oled',
+          type: 'laptop',
+          name: 'Asus Zenbook 14 OLED',
+          brand: 'Asus',
+          subCategory: 'تصميم ومونتاج',
+          badge: 'شاشة OLED سينمائية',
+          image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core Ultra 7 155H',
+          spec2Label: 'الرام', spec2: '16GB LPDDR5X',
+          spec3Label: 'التخزين', spec3: '1TB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '14" 2.8K OLED 120Hz',
+          gpu: 'Intel Arc Graphics',
+          ports: '2x Thunderbolt 4, USB-A, HDMI 2.1',
+          battery: 'حتى 15 ساعة',
+          weight: '1.20 كجم',
+          price: 44500,
+          oldPrice: 49900,
+          summary: 'دقة ألوان 100% DCI-P3 مثالية لطلاب الفنون التطبيقية والتصميم الجرافيكي والمونتاج.'
+        },
+        {
+          id: 'hp-spectre-x360',
+          type: 'laptop',
+          name: 'HP Spectre x360 2-in-1',
+          brand: 'HP',
+          subCategory: 'طب وتجارة',
+          badge: 'شاشة لمس 360° + قلم',
+          image: 'https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core Ultra 7 155H',
+          spec2Label: 'الرام', spec2: '16GB LPDDR5X',
+          spec3Label: 'التخزين', spec3: '1TB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '14" 2.8K OLED Touch',
+          gpu: 'Intel Arc Graphics',
+          ports: '2x Thunderbolt 4, USB-A, Audio Jack',
+          battery: 'حتى 14 ساعة',
+          weight: '1.44 كجم',
+          price: 59000,
+          oldPrice: 66000,
+          summary: 'يتحول إلى تابلت للكتابة والرسم بالقلم الذكي أثناء محاضرات الطب والعلوم.'
+        },
+        {
+          id: 'hp-victus-16',
+          type: 'laptop',
+          name: 'HP Victus 16 Gaming',
+          brand: 'HP',
+          subCategory: 'هندسة وجرافيك',
+          badge: 'شاشة كبيرة وتبريد فائق',
+          image: 'https://images.unsplash.com/photo-1629131726693-5ebac0c5c150?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core i7-13700H',
+          spec2Label: 'الرام', spec2: '16GB DDR5',
+          spec3Label: 'التخزين', spec3: '1TB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '16.1" FHD 144Hz',
+          gpu: 'NVIDIA RTX 4060 8GB',
+          ports: 'USB-C, 3x USB-A, HDMI 2.1, RJ45',
+          battery: 'حتى 8 ساعات',
+          weight: '2.33 كجم',
+          price: 46900,
+          oldPrice: 52500,
+          summary: 'شاشة واسعة 16.1 بوصة مع كارت RTX 4060 مثالي للهندسة المعمارية والريندر ثلاثي الأبعاد.'
+        },
+        {
+          id: 'acer-swift-go-14',
+          type: 'laptop',
+          name: 'Acer Swift Go 14',
+          brand: 'Acer',
+          subCategory: 'طب وتجارة',
+          badge: 'خفيف وسريع بميزانية ذكية',
+          image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'AMD Ryzen 5 7530U',
+          spec2Label: 'الرام', spec2: '16GB LPDDR4X',
+          spec3Label: 'التخزين', spec3: '512GB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '14" FHD IPS 100% sRGB',
+          gpu: 'AMD Radeon Graphics',
+          ports: '2x USB-C, 2x USB-A, HDMI 2.1, MicroSD',
+          battery: 'حتى 11 ساعة',
+          weight: '1.25 كجم',
+          price: 27500,
+          oldPrice: 31500,
+          summary: 'توازن مثالي بين الوزن الخفيف والبطارية الطويلة والسعر الاقتصادي لطلاب الكليات.'
+        },
+        {
+          id: 'msi-cyborg-15',
+          type: 'laptop',
+          name: 'MSI Cyborg 15 A13V',
+          brand: 'MSI',
+          subCategory: 'ألعاب وأداء عالي',
+          badge: 'تصميم عصري وأداء قوي',
+          image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المعالج', spec1: 'Intel Core i7-13620H',
+          spec2Label: 'الرام', spec2: '16GB DDR5',
+          spec3Label: 'التخزين', spec3: '512GB NVMe SSD',
+          spec4Label: 'الشاشة', spec4: '15.6" FHD 144Hz',
+          gpu: 'NVIDIA RTX 4050 6GB',
+          ports: 'USB-C, 2x USB-A, HDMI 2.1, RJ45',
+          battery: 'حتى 8 ساعات',
+          weight: '1.98 كجم',
+          price: 41900,
+          oldPrice: 47000,
+          summary: 'مناسب لتطوير الألعاب (Unity/Unreal)، البرمجة المتقدمة، والمحاكاة الهندسية.'
+        },
+
+        // -------------------- 12 إكسسوار لابتوب متكامل --------------------
+        {
+          id: 'acc-logitech-mx-master-3s',
+          type: 'accessory',
+          name: 'Logitech MX Master 3S Wireless Mouse',
+          brand: 'Logitech',
+          subCategory: 'ماوس وكيبورد',
+          badge: 'الأفضل للبرمجة والتصميم',
+          image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'الدقة (DPI)', spec1: '8000 DPI Darkfield',
+          spec2Label: 'الاتصال', spec2: 'Bluetooth + Logi Bolt',
+          spec3Label: 'البطارية', spec3: 'حتى 70 يومًا (USB-C)',
+          spec4Label: 'الميزة', spec4: 'نقرات صامتة + MagSpeed',
+          gpu: 'يعمل على الزجاج والأسطح كافة',
+          ports: 'USB-C Fast Charge + اتصال بـ 3 أجهزة',
+          battery: '70 يوم شحن كامل',
+          weight: '141 جم',
+          price: 4850,
+          oldPrice: 5600,
+          summary: 'ماوس لاسلكي مريح لليد مصمم لساعات الدراسة والبرمجة والتصميم الطويلة بعجلة تمرير فائقة السرعة.'
+        },
+        {
+          id: 'acc-keychron-k2-mech',
+          type: 'accessory',
+          name: 'Keychron K2 Wireless Mechanical Keyboard',
+          brand: 'Keychron',
+          subCategory: 'ماوس وكيبورد',
+          badge: 'كيبورد ميكانيكي 75%',
+          image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'السويتشات', spec1: 'Gateron G Pro Brown',
+          spec2Label: 'التوافق', spec2: 'Windows & macOS',
+          spec3Label: 'الإضاءة', spec3: 'RGB Backlit (18 وضع)',
+          spec4Label: 'الاتصال', spec4: 'Bluetooth 5.1 / USB-C',
+          gpu: 'Hot-Swappable + أزرار Mac و Windows',
+          ports: 'USB Type-C + ربط 3 أجهزة لاسلكيًا',
+          battery: '4000mAh (حتى 240 ساعة)',
+          weight: '794 جم',
+          price: 4400,
+          oldPrice: 5100,
+          summary: 'كيبورد ميكانيكي مدمج يرفع سرعة ودقة الكتابة للمبرمجين وكتابة الأبحاث الجامعية.'
+        },
+        {
+          id: 'acc-sony-wh1000xm5',
+          type: 'accessory',
+          name: 'Sony WH-1000XM5 ANC Headphones',
+          brand: 'Sony',
+          subCategory: 'صوتيات وكاميرات',
+          badge: 'عزل ضوضاء أسطوري',
+          image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'العزل', spec1: '8 ميكروفونات ANC ذكية',
+          spec2Label: 'البطارية', spec2: 'حتى 30 ساعة تشغيل',
+          spec3Label: 'الشحن السريع', spec3: '3 دقائق = 3 ساعات',
+          spec4Label: 'الاتصال', spec4: 'Bluetooth 5.2 Multipoint',
+          gpu: 'معالج V1 + QN1 لعزل ضوضاء الكافيهات',
+          ports: 'USB-C + كابل صوت 3.5mm + حقيبة حمل',
+          battery: '30 ساعة متواصلة',
+          weight: '250 جم',
+          price: 14900,
+          oldPrice: 17200,
+          summary: 'سماعة رأس بعزل ضوضاء احترافي تساعدك على التركيز الكامل أثناء المذاكرة وحضور المحاضرات.'
+        },
+        {
+          id: 'acc-usbc-hub-7in1',
+          type: 'accessory',
+          name: 'Anker 7-in-1 USB-C Hub & Docking Station',
+          brand: 'Anker',
+          subCategory: 'توصيل وتخزين',
+          badge: 'ضروري لأجهزة Mac و Dell',
+          image: 'https://images.unsplash.com/photo-1625842268584-8f3296236761?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'العرض', spec1: 'HDMI 4K @ 60Hz',
+          spec2Label: 'الشحن', spec2: '100W Power Delivery',
+          spec3Label: 'المنافذ', spec3: '2x USB 3.0 + SD/TF',
+          spec4Label: 'الهيكل', spec4: 'ألومنيوم مقاوم للحرارة',
+          gpu: 'نقل بيانات بسرعة 5Gbps وعرض شاشة خارجية',
+          ports: 'HDMI 4K, 100W PD, USB-C Data, 2x USB-A, SD, microSD',
+          battery: 'يعمل مباشرة عبر منفذ اللابتوب',
+          weight: '112 جم',
+          price: 2150,
+          oldPrice: 2600,
+          summary: 'يوسّع منافذ اللابتوب النحيف لتوصيل البروجيكتور في الجامعة والفلاشات وكروت الذاكرة والشاحن معًا.'
+        },
+        {
+          id: 'acc-smart-backpack',
+          type: 'accessory',
+          name: 'حقيبة لابتوب ذكية مضادة للماء (15.6 - 17 بوصة)',
+          brand: 'Baseus',
+          subCategory: 'حقائب وحماية',
+          badge: 'منفذ شحن USB + حماية الصدمات',
+          image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'المقاس', spec1: 'تستوعب حتى 17.3 بوصة',
+          spec2Label: 'الحماية', spec2: 'قماش مقاوم للماء + بطانة صدمات',
+          spec3Label: 'المزايا', spec3: 'منفذ USB خارجي + قفل أمان',
+          spec4Label: 'الراحة', spec4: 'ظهر مبطن مهوّى للكتفين',
+          gpu: 'جيوب منظمة للشاحن والماوس والتابلت والكتب',
+          ports: 'منفذ شحن USB خارجي موصول بباور بانك داخلي',
+          battery: 'بدون بطارية (تدعم الباور بانك)',
+          weight: '850 جم',
+          price: 1650,
+          oldPrice: 2100,
+          summary: 'حقيبة ظهر جامعية عصرية تحمي اللابتوب من المطر والصدمات وتنظم كل أدواتك اليومية.'
+        },
+        {
+          id: 'acc-aluminum-cooling-stand',
+          type: 'accessory',
+          name: 'حامل لابتوب ألومنيوم قابل للتعديل بمروحتين تبريد',
+          brand: 'Baseus',
+          subCategory: 'تبريد وحوامل',
+          badge: 'يحمي الرقبة ويبرد الجهاز',
+          image: 'https://images.unsplash.com/photo-1586210579191-33b45e38fa2c?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'الخامة', spec1: 'سبيكة ألومنيوم CNC متينة',
+          spec2Label: 'التبريد', spec2: 'مروحتان هادئتان بإضاءة زرقاء',
+          spec3Label: 'الارتفاع', spec3: 'قابل للتعديل 6 مستويات',
+          spec4Label: 'التوافق', spec4: 'لابتوبات 11 إلى 17 بوصة',
+          gpu: 'يخفض حرارة المعالج وكارت الشاشة أثناء الريندر',
+          ports: 'منفذ USB لتشغيل المراوح + منفذ إضافي',
+          battery: 'يتغذى عبر USB من اللابتوب',
+          weight: '690 جم',
+          price: 1450,
+          oldPrice: 1850,
+          summary: 'يرفع شاشة اللابتوب لمستوى النظر لحماية الرقبة أثناء المذاكرة مع تبريد فعال للأجهزة القوية.'
+        },
+        {
+          id: 'acc-samsung-t7-ssd-1tb',
+          type: 'accessory',
+          name: 'Samsung T7 Portable NVMe SSD 1TB',
+          brand: 'Samsung',
+          subCategory: 'توصيل وتخزين',
+          badge: 'سرعة 1050MB/s + حماية بصمة',
+          image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'السعة', spec1: '1 تيرابايت (1TB NVMe)',
+          spec2Label: 'السرعة', spec2: 'قراءة حتى 1,050 MB/s',
+          spec3Label: 'المتانة', spec3: 'هيكل معدني مقاوم للسقوط 2م',
+          spec4Label: 'الكابلات', spec4: 'USB-C to C + USB-C to A',
+          gpu: 'مثالي لمشاريع الفيديو الضخمة وقواعد البيانات',
+          ports: 'USB 3.2 Gen 2 (10Gbps)',
+          battery: 'يعمل مباشرة عبر الكابل',
+          weight: '58 جم فقط',
+          price: 4950,
+          oldPrice: 5800,
+          summary: 'هارد خارجي بحجم بطاقة الائتمان لحفظ مشاريع التخرج والمحاضرات والملفات الكبيرة بسرعة فائقة.'
+        },
+        {
+          id: 'acc-gan-charger-100w',
+          type: 'accessory',
+          name: 'Ugreen Nexode 100W GaN Fast Multi-Port Charger',
+          brand: 'Ugreen',
+          subCategory: 'شواحن وطاقة',
+          badge: 'يشحن اللابتوب والموبايل معًا',
+          image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'القدرة', spec1: '100W PD 3.0 GaN II',
+          spec2Label: 'المنافذ', spec2: '3x USB-C + 1x USB-A',
+          spec3Label: 'الحجم', spec3: 'أصغر 40% من شاحن اللابتوب',
+          spec4Label: 'الأمان', spec4: 'حماية ذكية من الحرارة والتيار',
+          gpu: 'يشحن MacBook Pro 14 حتى 50% في 30 دقيقة',
+          ports: '3 منافذ Type-C + منفذ USB-A',
+          battery: 'شاحن جداري ذكي',
+          weight: '215 جم',
+          price: 2350,
+          oldPrice: 2800,
+          summary: 'شاحن واحد صغير في حقيبتك يكفي لشحن اللابتوب والموبايل والتابلت والسماعة في نفس الوقت.'
+        },
+        {
+          id: 'acc-logitech-webcam-1080p',
+          type: 'accessory',
+          name: 'Logitech C920s Pro HD 1080p Webcam',
+          brand: 'Logitech',
+          subCategory: 'صوتيات وكاميرات',
+          badge: 'غطاء خصوصية + ميكروفون مزدوج',
+          image: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'الدقة', spec1: 'Full HD 1080p @ 30fps',
+          spec2Label: 'الخصوصية', spec2: 'غطاء عدسة مدمج (Privacy Shutter)',
+          spec3Label: 'الصوت', spec3: 'ميكروفونان ستيريو بعزل الضجيج',
+          spec4Label: 'الإضاءة', spec4: 'تصحيح إضاءة تلقائي RightLight 2',
+          gpu: 'مثالية للمقابلات الأونلاين ومناقشة المشاريع',
+          ports: 'USB-A + قاعدة تثبيت على الشاشة أو الترايبود',
+          battery: 'تعمل عبر USB',
+          weight: '162 جم',
+          price: 3200,
+          oldPrice: 3750,
+          summary: 'صورة نقية وصوت واضح جدًا للمحاضرات التفاعلية ومقابلات التدريب الصيفي والعمل عن بُعد.'
+        },
+        {
+          id: 'acc-sleeve-cleaning-kit',
+          type: 'accessory',
+          name: 'جراب حماية فاخر + طقم تنظيف الشاشة والكيبورد (7 في 1)',
+          brand: 'Ugreen',
+          subCategory: 'حقائب وحماية',
+          badge: 'حماية ونظافة يومية متكاملة',
+          image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'الجراب', spec1: 'مبطن بالمخمل الناعم (13-16 بوصة)',
+          spec2Label: 'طقم التنظيف', spec2: 'فرشاة كيبورد + بخاخ + فوطة مايكروفايبر',
+          spec3Label: 'الأمان', spec3: 'سحاب مقاوم للماء + جيب إكسسوارات',
+          spec4Label: 'المادة', spec4: 'آمن 100% على شاشات OLED و Retina',
+          gpu: 'يزيل البصمات والأتربة من الكيبورد والسماعات',
+          ports: 'ملقط مفاتيح الكيبورد + أداة تنظيف السماعات',
+          battery: 'بدون بطارية',
+          weight: '320 جم',
+          price: 750,
+          oldPrice: 990,
+          summary: 'يحافظ على شاشة اللابتوب ولوحة المفاتيح نظيفة وجديدة طوال سنوات الدراسة الجامعية.'
+        },
+        {
+          id: 'acc-xxl-rgb-desk-mat',
+          type: 'accessory',
+          name: 'ماوس باد مكتبي كبير XXL بإضاءة RGB (80×30 سم)',
+          brand: 'Logitech',
+          subCategory: 'ماوس وكيبورد',
+          badge: 'مقاوم للماء ومانع للانزلاق',
+          image: 'https://images.unsplash.com/photo-1616588589676-62b3bd4ff6d2?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'الأبعاد', spec1: '800 × 300 × 4 مم',
+          spec2Label: 'الإضاءة', spec2: '12 وضع إضاءة RGB محيطية',
+          spec3Label: 'السطح', spec3: 'نسيج فائق النعومة لدقة الماوس',
+          spec4Label: 'القاعدة', spec4: 'مطاط طبيعي مانع للانزلاق',
+          gpu: 'يستوعب اللابتوب والكيبورد والماوس معًا',
+          ports: 'كابل USB مضفر قابل للفصل',
+          battery: 'يتغذى عبر USB',
+          weight: '540 جم',
+          price: 680,
+          oldPrice: 900,
+          summary: 'يمنح مكتبك الدراسي مظهرًا عصريًا منظمًا ويحمي سطح المكتب مع انسيابية ممتازة للماوس.'
+        },
+        {
+          id: 'acc-active-stylus-pen',
+          type: 'accessory',
+          name: 'قلم لمس ذكي نشط لشاشات اللمس والتابلت (Active Stylus)',
+          brand: 'Baseus',
+          subCategory: 'تبريد وحوامل',
+          badge: 'راحتك في تدوين المحاضرات',
+          image: 'https://images.unsplash.com/photo-1585792180666-f7347c490ee2?auto=format&fit=crop&w=800&q=80',
+          spec1Label: 'الحساسية', spec1: '4096 مستوى ضغط + Palm Rejection',
+          spec2Label: 'التوافق', spec2: 'شاشات اللمس Windows x360 و iPad',
+          spec3Label: 'البطارية', spec3: '12 ساعة عمل (شحن USB-C)',
+          spec4Label: 'السنون', spec4: 'سن دقيق 1.5 مم + 2 سن إضافي',
+          gpu: 'مثالي لتلخيص المحاضرات والرسم الهندسي السريع',
+          ports: 'منفذ شحن Type-C + تثبيت مغناطيسي',
+          battery: '12 ساعة متواصلة',
+          weight: '15 جم',
+          price: 1150,
+          oldPrice: 1450,
+          summary: 'حوّل شاشة اللابتوب اللمس أو التابلت إلى دفتر محاضرات رقمي للكتابة والرسم بدقة القلم الحقيقي.'
+        }
+      ];
+
+      // ===================================================================
+      // حالة التطبيق مع الحفظ التلقائي في localStorage
+      // ===================================================================
+      const STORAGE_KEY = 'techcampus_store_v2';
+      const state = {
+        mainType: 'all', // 'all' | 'laptop' | 'accessory'
+        subCategory: 'all',
+        brand: 'all',
+        maxBudget: 85000,
+        sort: 'featured',
+        search: '',
+        cart: [], // [{ id, qty }]
+        wishlistIds: [],
+        compareIds: [],
+        promoActive: false,
+      };
+
+      function loadPersistedState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.cart)) state.cart = parsed.cart;
+          if (Array.isArray(parsed.wishlistIds)) state.wishlistIds = parsed.wishlistIds;
+          if (Array.isArray(parsed.compareIds)) state.compareIds = parsed.compareIds.slice(0, 3);
+          if (typeof parsed.promoActive === 'boolean') state.promoActive = parsed.promoActive;
+        } catch (err) {
+          console.warn('تعذر قراءة البيانات المحفوظة:', err);
+        }
+      }
+
+      function savePersistedState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            cart: state.cart,
+            wishlistIds: state.wishlistIds,
+            compareIds: state.compareIds,
+            promoActive: state.promoActive,
+          }));
+        } catch (err) {
+          console.warn('تعذر حفظ البيانات:', err);
+        }
+      }
+
+      const formatEGP = (num) => `${Number(num || 0).toLocaleString('en-US')} ج.م`;
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const box = document.getElementById('toastBox');
+        const text = document.getElementById('toastText');
+        if (!box || !text) return;
+        text.textContent = msg;
+        box.classList.remove('hidden');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => box.classList.add('hidden'), 2500);
+      }
+
+      // ===================================================================
+      // 1. بناء الفلاتر الفرعية والماركات ديناميكيًا
+      // ===================================================================
+      function renderDynamicFilterPills() {
+        const subRow = document.getElementById('subCategoryRow');
+        const brandsRow = document.getElementById('brandsRow');
+        if (!subRow || !brandsRow) return;
+
+        let subOptions = [];
+        if (state.mainType === 'laptop') {
+          subOptions = ['هندسة وجرافيك', 'برمجة وذكاء اصطناعي', 'تصميم ومونتاج', 'طب وتجارة', 'ألعاب وأداء عالي'];
+        } else if (state.mainType === 'accessory') {
+          subOptions = ['ماوس وكيبورد', 'صوتيات وكاميرات', 'توصيل وتخزين', 'حقائب وحماية', 'تبريد وحوامل', 'شواحن وطاقة'];
+        } else {
+          subOptions = [
+            'هندسة وجرافيك', 'برمجة وذكاء اصطناعي', 'تصميم ومونتاج', 'طب وتجارة', 'ألعاب وأداء عالي',
+            'ماوس وكيبورد', 'صوتيات وكاميرات', 'توصيل وتخزين', 'حقائب وحماية', 'تبريد وحوامل', 'شواحن وطاقة'
+          ];
+        }
+
+        subRow.innerHTML = `
+          <span class="text-slate-400 font-bold shrink-0">التصنيف:</span>
+          <button type="button" data-sub="all" class="sub-pill shrink-0 px-3 py-1.5 rounded-xl font-bold cursor-pointer ${
+            state.subCategory === 'all'
+              ? 'bg-blue-600 text-white'
+              : 'bg-slate-100 dark:bg-campus-800 text-slate-700 dark:text-slate-300 hover:bg-blue-500/15'
+          }">الكل</button>
+          ${subOptions.map((sc) => `
+            <button type="button" data-sub="${sc}" class="sub-pill shrink-0 px-3 py-1.5 rounded-xl font-semibold cursor-pointer ${
+              state.subCategory === sc
+                ? 'bg-blue-600 text-white font-bold'
+                : 'bg-slate-100 dark:bg-campus-800 text-slate-700 dark:text-slate-300 hover:bg-blue-500/15'
+            }">${sc}</button>
+          `).join('')}
+        `;
+
+        const relevantProducts = PRODUCTS.filter((p) => state.mainType === 'all' || p.type === state.mainType);
+        const brands = Array.from(new Set(relevantProducts.map((p) => p.brand)));
+
+        brandsRow.innerHTML = `
+          <span class="text-slate-400 font-bold shrink-0">الماركة:</span>
+          <button type="button" data-brand="all" class="brand-pill shrink-0 px-3 py-1.5 rounded-xl font-bold cursor-pointer ${
+            state.brand === 'all'
+              ? 'bg-slate-900 text-white dark:bg-cyan-500 dark:text-slate-950 font-black'
+              : 'bg-slate-100 dark:bg-campus-800 text-slate-700 dark:text-slate-300 hover:bg-blue-500/15'
+          }">الكل</button>
+          ${brands.map((b) => `
+            <button type="button" data-brand="${b}" class="brand-pill shrink-0 px-3 py-1.5 rounded-xl font-semibold cursor-pointer ${
+              state.brand === b
+                ? 'bg-slate-900 text-white dark:bg-cyan-500 dark:text-slate-950 font-black'
+                : 'bg-slate-100 dark:bg-campus-800 text-slate-700 dark:text-slate-300 hover:bg-blue-500/15'
+            }">${b}</button>
+          `).join('')}
+        `;
+      }
+
+      // ===================================================================
+      // 2. تصفية وعرض شبكة الـ 24 منتجًا
+      // ===================================================================
+      function getFilteredProducts() {
+        const query = state.search.trim().toLowerCase();
+        const filtered = PRODUCTS.filter((item) => {
+          const okType = state.mainType === 'all' || item.type === state.mainType;
+          const okSub = state.subCategory === 'all' || item.subCategory === state.subCategory;
+          const okBrand = state.brand === 'all' || item.brand === state.brand;
+          const okBudget = item.price <= state.maxBudget;
+          const blob = `${item.name} ${item.brand} ${item.subCategory} ${item.spec1} ${item.spec2} ${item.spec3} ${item.spec4} ${item.summary}`.toLowerCase();
+          const okSearch = !query || blob.includes(query);
+          return okType && okSub && okBrand && okBudget && okSearch;
+        });
+
+        const sorted = [...filtered];
+        if (state.sort === 'priceAsc') sorted.sort((a, b) => a.price - b.price);
+        if (state.sort === 'priceDesc') sorted.sort((a, b) => b.price - a.price);
+        return sorted;
+      }
+
+      function renderProductsGrid() {
+        const grid = document.getElementById('productsGrid');
+        const countEl = document.getElementById('resultsCountText');
+        const headingEl = document.getElementById('catalogHeading');
+        if (!grid) return;
+
+        const items = getFilteredProducts();
+        const totalPool = PRODUCTS.filter((p) => state.mainType === 'all' || p.type === state.mainType).length;
+
+        if (headingEl) {
+          if (state.mainType === 'laptop') headingEl.textContent = 'أجهزة اللابتوب للطلاب الجامعيين (12 موديل)';
+          else if (state.mainType === 'accessory') headingEl.textContent = 'إكسسوارات اللابتوب ومستلزمات المكتب (12 إكسسوار)';
+          else headingEl.textContent = 'كتالوج تيك كامبس الشامل (لابتوبات وإكسسوارات)';
+        }
+
+        if (countEl) {
+          countEl.textContent = `عرض ${items.length} من أصل ${totalPool} منتج`;
+        }
+
+        if (items.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full bg-white dark:bg-campus-900 border border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-12 text-center space-y-3">
+              <div class="text-4xl">🔍</div>
+              <h3 class="text-lg font-black text-slate-900 dark:text-white">لا توجد منتجات مطابقة لخيارات البحث الحالية</h3>
+              <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">جرّب رفع سقف السعر أو اختيار تصنيف آخر أو الضغط على إعادة ضبط.</p>
+              <button type="button" onclick="document.getElementById('resetFiltersBtn').click()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold px-5 py-2.5 rounded-xl cursor-pointer">
+                إعادة ضبط الفلاتر
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = items.map((item) => {
+          const discountPct = Math.round(((item.oldPrice - item.price) / item.oldPrice) * 100);
+          const isCompared = state.compareIds.includes(item.id);
+          const isWished = state.wishlistIds.includes(item.id);
+          const typeLabel = item.type === 'laptop' ? 'لابتوب' : 'إكسسوار';
+
+          return `
+            <article class="group bg-white dark:bg-campus-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 hover:border-blue-500/60 dark:hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-950/10 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+              <div>
+                <!-- صورة المنتج عالية الدقة -->
+                <div class="relative h-52 sm:h-56 overflow-hidden bg-slate-900">
+                  <img
+                    src="${item.image}"
+                    onerror="window.applyProductFallback(this, '${item.name.replace(/'/g, '')}')"
+                    alt="${item.name}"
+                    loading="lazy"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-campus-950/85 via-transparent to-black/25"></div>
+
+                  <div class="absolute top-3 right-3 left-3 flex items-center justify-between gap-2">
+                    <span class="text-[11px] font-extrabold bg-slate-950/75 backdrop-blur-md text-white border border-white/15 px-3 py-1 rounded-full">
+                      ${item.badge}
+                    </span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-[11px] font-black bg-emerald-500 text-slate-950 px-2.5 py-0.5 rounded-full shadow-md">
+                        وفر ${discountPct}%
+                      </span>
+                      <button
+                        type="button"
+                        data-wish="${item.id}"
+                        aria-label="أضف للمفضلة"
+                        title="أضف للمفضلة"
+                        class="btn-wish w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition cursor-pointer ${
+                          isWished
+                            ? 'bg-rose-500 text-white shadow-md'
+                            : 'bg-slate-950/70 text-white hover:bg-rose-500'
+                        }"
+                      >
+                        ♥
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="absolute bottom-3 right-3 left-3 flex items-center justify-between text-white">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-xs font-black bg-blue-600/95 px-2.5 py-0.5 rounded-lg">${item.brand}</span>
+                      <span class="text-[10px] font-black px-2 py-0.5 rounded-lg ${
+                        item.type === 'laptop' ? 'bg-indigo-500/90' : 'bg-cyan-500 text-slate-950'
+                      }">${typeLabel}</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-200 bg-black/55 backdrop-blur-xs px-2.5 py-0.5 rounded-lg">
+                      ${item.subCategory}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- اسم المنتج والمواصفات الـ 4 -->
+                <div class="p-5 space-y-3.5">
+                  <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition">
+                    ${item.name}
+                  </h3>
+
+                  <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200/70 dark:border-slate-800 rounded-xl p-2.5">
+                      <span class="block text-[10px] text-slate-400">${item.spec1Label}</span>
+                      <span class="font-bold text-slate-800 dark:text-slate-100 truncate block mt-0.5">${item.spec1}</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200/70 dark:border-slate-800 rounded-xl p-2.5">
+                      <span class="block text-[10px] text-slate-400">${item.spec2Label}</span>
+                      <span class="font-bold text-slate-800 dark:text-slate-100 truncate block mt-0.5">${item.spec2}</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200/70 dark:border-slate-800 rounded-xl p-2.5">
+                      <span class="block text-[10px] text-slate-400">${item.spec3Label}</span>
+                      <span class="font-bold text-slate-800 dark:text-slate-100 truncate block mt-0.5">${item.spec3}</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200/70 dark:border-slate-800 rounded-xl p-2.5">
+                      <span class="block text-[10px] text-slate-400">${item.spec4Label}</span>
+                      <span class="font-bold text-slate-800 dark:text-slate-100 truncate block mt-0.5">${item.spec4}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- السعر وأزرار الإضافة والمعاينة والمقارنة -->
+              <div class="px-5 pb-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 space-y-3">
+                <div class="flex items-baseline justify-between gap-2">
+                  <div>
+                    <span class="block text-[10px] font-bold text-emerald-600 dark:text-emerald-400">سعر الطالب الجامعي</span>
+                    <span class="text-xl font-black text-slate-900 dark:text-white tabular-nums">${formatEGP(item.price)}</span>
+                  </div>
+                  <span class="text-xs text-slate-400 line-through tabular-nums">${formatEGP(item.oldPrice)}</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    data-add="${item.id}"
+                    class="btn-add-cart flex-1 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-extrabold text-xs sm:text-sm py-2.5 px-3 rounded-xl shadow-sm transition cursor-pointer"
+                  >
+                    أضف للسلة
+                  </button>
+
+                  <button
+                    type="button"
+                    data-qv="${item.id}"
+                    class="btn-quick-view bg-slate-100 dark:bg-campus-800 hover:bg-slate-200 dark:hover:bg-campus-700 text-slate-800 dark:text-slate-200 font-bold text-xs py-2.5 px-3 rounded-xl transition cursor-pointer"
+                  >
+                    معاينة
+                  </button>
+
+                  <button
+                    type="button"
+                    data-cmp="${item.id}"
+                    class="btn-compare font-bold text-xs py-2.5 px-3 rounded-xl border transition cursor-pointer ${
+                      isCompared
+                        ? 'bg-cyan-500 text-slate-950 border-cyan-500 font-black'
+                        : 'bg-transparent hover:bg-slate-100 dark:hover:bg-campus-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700'
+                    }"
+                  >
+                    ${isCompared ? 'مقارن ✓' : 'مقارنة'}
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      // ===================================================================
+      // 3. المفضلة (Wishlist)
+      // ===================================================================
+      function updateWishlistUI() {
+        const badge = document.getElementById('wishlistBadge');
+        if (badge) badge.textContent = String(state.wishlistIds.length);
+      }
+
+      function toggleWishlist(id) {
+        const item = PRODUCTS.find((p) => p.id === id);
+        if (!item) return;
+        const idx = state.wishlistIds.indexOf(id);
+        if (idx > -1) {
+          state.wishlistIds.splice(idx, 1);
+          showToast(`تمت إزالة «${item.name}» من المفضلة`);
+        } else {
+          state.wishlistIds.push(id);
+          showToast(`تم حفظ «${item.name}» في المفضلة ♥`);
+        }
+        savePersistedState();
+        updateWishlistUI();
+        renderProductsGrid();
+        renderWishlistModal();
+      }
+
+      function renderWishlistModal() {
+        const container = document.getElementById('wishlistItemsContainer');
+        if (!container) return;
+
+        const items = PRODUCTS.filter((p) => state.wishlistIds.includes(p.id));
+        if (items.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12 space-y-2">
+              <div class="text-4xl">♥</div>
+              <h4 class="text-base font-black text-slate-800 dark:text-white">قائمة المفضلة فارغة</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400">اضغط على أيقونة القلب ♥ في أي لابتوب أو إكسسوار لحفظه هنا.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = items.map((item) => `
+          <div class="flex items-center justify-between gap-3 bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <img src="${item.image}" onerror="window.applyProductFallback(this,'${item.brand}')" alt="${item.name}" class="w-16 h-14 rounded-xl object-cover shrink-0" />
+              <div class="min-w-0">
+                <span class="text-[10px] font-bold text-blue-600 dark:text-cyan-400">${item.brand} • ${item.subCategory}</span>
+                <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${item.name}</h4>
+                <div class="text-xs font-black text-emerald-600 dark:text-emerald-400 mt-0.5">${formatEGP(item.price)}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" data-wish-add="${item.id}" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold px-3 py-2 rounded-xl cursor-pointer">
+                أضف للسلة
+              </button>
+              <button type="button" data-wish-rem="${item.id}" class="text-slate-400 hover:text-rose-500 text-xs font-bold px-2 py-1 cursor-pointer">
+                ✕
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // ===================================================================
+      // 4. نافذة المعاينة السريعة (Quick-View Modal)
+      // ===================================================================
+      let activeQuickViewId = null;
+
+      function openQuickView(id) {
+        const item = PRODUCTS.find((p) => p.id === id);
+        const modal = document.getElementById('quickViewModal');
+        if (!item || !modal) return;
+
+        activeQuickViewId = id;
+        document.getElementById('qvImage').src = item.image;
+        document.getElementById('qvBrand').textContent = item.brand;
+        document.getElementById('qvCategory').textContent = `${item.type === 'laptop' ? 'لابتوب' : 'إكسسوار'} • ${item.subCategory}`;
+        document.getElementById('qvTitle').textContent = item.name;
+        document.getElementById('qvPrice').textContent = formatEGP(item.price);
+
+        document.getElementById('qvBody').innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5">
+              <span class="text-[11px] text-slate-400">${item.spec1Label}</span>
+              <div class="font-extrabold text-slate-900 dark:text-white mt-0.5">${item.spec1}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5">
+              <span class="text-[11px] text-slate-400">${item.spec2Label}</span>
+              <div class="font-extrabold text-slate-900 dark:text-white mt-0.5">${item.spec2}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5">
+              <span class="text-[11px] text-slate-400">${item.spec3Label} & ${item.spec4Label}</span>
+              <div class="font-extrabold text-slate-900 dark:text-white mt-0.5">${item.spec3} • ${item.spec4}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5">
+              <span class="text-[11px] text-slate-400">مواصفات إضافية</span>
+              <div class="font-extrabold text-slate-900 dark:text-white mt-0.5">${item.gpu}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5">
+              <span class="text-[11px] text-slate-400">البطارية والوزن</span>
+              <div class="font-extrabold text-slate-900 dark:text-white mt-0.5">${item.battery} • ${item.weight}</div>
+            </div>
+            <div class="bg-slate-50 dark:bg-campus-850 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5">
+              <span class="text-[11px] text-slate-400">المنافذ والتوصيل</span>
+              <div class="font-extrabold text-slate-900 dark:text-white mt-0.5">${item.ports}</div>
+            </div>
+          </div>
+          <div class="bg-blue-500/10 border border-blue-500/25 rounded-2xl p-4">
+            <div class="text-xs font-black text-blue-600 dark:text-cyan-400 mb-1">لماذا يناسب الطلاب الجامعيين؟</div>
+            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">${item.summary}</p>
+          </div>
+        `;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeQuickView() {
+        const modal = document.getElementById('quickViewModal');
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+      }
+
+      // ===================================================================
+      // 5. المقارنة الجانبية (حتى 3 منتجات)
+      // ===================================================================
+      function updateCompareUI() {
+        const count = state.compareIds.length;
+        const navBadge = document.getElementById('navCompareBadge');
+        const bar = document.getElementById('compareFloatingBar');
+        const barCount = document.getElementById('compareBarCount');
+
+        if (navBadge) navBadge.textContent = String(count);
+        if (barCount) barCount.textContent = `${count} / 3 منتجات محددة`;
+
+        if (bar) {
+          if (count > 0) bar.classList.remove('hidden');
+          else bar.classList.add('hidden');
+        }
+      }
+
+      function toggleCompare(id) {
+        const idx = state.compareIds.indexOf(id);
+        if (idx > -1) {
+          state.compareIds.splice(idx, 1);
+          showToast('تمت إزالة المنتج من المقارنة');
+        } else {
+          if (state.compareIds.length >= 3) {
+            showToast('يمكنك مقارنة 3 منتجات كحد أقصى في نفس الوقت');
+            return;
+          }
+          state.compareIds.push(id);
+          showToast(`تمت الإضافة للمقارنة (${state.compareIds.length}/3)`);
+        }
+        savePersistedState();
+        updateCompareUI();
+        renderProductsGrid();
+      }
+
+      function openCompareModal() {
+        const modal = document.getElementById('compareModal');
+        const container = document.getElementById('compareTableContainer');
+        if (!modal || !container) return;
+
+        const chosen = PRODUCTS.filter((p) => state.compareIds.includes(p.id));
+        if (chosen.length < 2) {
+          showToast('اختر منتجين على الأقل عبر زر «مقارنة» لبدء المقارنة');
+          return;
+        }
+
+        const rows = [
+          { label: 'الصورة', val: (p) => `<img src="${p.image}" onerror="window.applyProductFallback(this,'${p.brand}')" alt="${p.name}" class="w-28 h-20 object-cover rounded-xl mx-auto" />` },
+          { label: 'النوع والماركة', val: (p) => `<span class="font-black text-blue-600 dark:text-cyan-400">${p.brand} (${p.type === 'laptop' ? 'لابتوب' : 'إكسسوار'})</span>` },
+          { label: 'المواصفة 1', val: (p) => `<strong>${p.spec1Label}:</strong> ${p.spec1}` },
+          { label: 'المواصفة 2', val: (p) => `<strong>${p.spec2Label}:</strong> ${p.spec2}` },
+          { label: 'المواصفة 3', val: (p) => `<strong>${p.spec3Label}:</strong> ${p.spec3}` },
+          { label: 'المواصفة 4', val: (p) => `<strong>${p.spec4Label}:</strong> ${p.spec4}` },
+          { label: 'الوزن', val: (p) => p.weight },
+          { label: 'البطارية / الطاقة', val: (p) => p.battery },
+          { label: 'السعر الطلابي', val: (p) => `<strong class="text-emerald-600 dark:text-emerald-400 text-base">${formatEGP(p.price)}</strong>` },
+        ];
+
+        container.innerHTML = `
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs sm:text-sm border-collapse text-center">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-campus-950">
+                  <th class="p-3 text-right font-black text-slate-600 dark:text-slate-300">المواصفة</th>
+                  ${chosen.map((p) => `<th class="p-3 font-black text-slate-900 dark:text-white">${p.name}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                ${rows.map((r) => `
+                  <tr>
+                    <td class="p-3 text-right font-bold text-slate-600 dark:text-slate-400 bg-slate-50/60 dark:bg-campus-950/40">${r.label}</td>
+                    ${chosen.map((p) => `<td class="p-3 font-semibold text-slate-800 dark:text-slate-200">${r.val(p)}</td>`).join('')}
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeCompareModal() {
+        const modal = document.getElementById('compareModal');
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+      }
+
+      // ===================================================================
+      // 6. سلة التسوق المنزلقة + ترشيح الإكسسوارات المكملة + STUDENT15
+      // ===================================================================
+      function calcCartTotals() {
+        let subtotal = 0;
+        for (const item of state.cart) {
+          const prod = PRODUCTS.find((p) => p.id === item.id);
+          if (prod) subtotal += prod.price * item.qty;
+        }
+        const discount = state.promoActive ? Math.round(subtotal * 0.15) : 0;
+        const total = Math.max(0, subtotal - discount);
+        return { subtotal, discount, total };
+      }
+
+      function renderCartUpsells() {
+        const listEl = document.getElementById('cartUpsellList');
+        if (!listEl) return;
+
+        const inCartIds = new Set(state.cart.map((c) => c.id));
+        const recommended = PRODUCTS
+          .filter((p) => p.type === 'accessory' && !inCartIds.has(p.id))
+          .slice(0, 3);
+
+        listEl.innerHTML = recommended.map((acc) => `
+          <div class="flex items-center justify-between gap-2.5 bg-blue-500/5 dark:bg-campus-850 border border-blue-500/20 rounded-xl p-2.5">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <img src="${acc.image}" onerror="window.applyProductFallback(this,'${acc.brand}')" alt="${acc.name}" class="w-11 h-11 rounded-lg object-cover shrink-0" />
+              <div class="min-w-0">
+                <div class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${acc.name}</div>
+                <div class="text-[11px] font-black text-blue-600 dark:text-cyan-400 tabular-nums">${formatEGP(acc.price)}</div>
+              </div>
+            </div>
+            <button
+              type="button"
+              data-upsell-add="${acc.id}"
+              class="shrink-0 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-extrabold px-2.5 py-1.5 rounded-lg cursor-pointer"
+            >
+              + أضف
+            </button>
+          </div>
+        `).join('');
+      }
+
+      function renderCart() {
+        const totalCount = state.cart.reduce((acc, cur) => acc + cur.qty, 0);
+        const badge = document.getElementById('cartBadge');
+        const drawerCount = document.getElementById('cartDrawerCount');
+        const itemsContainer = document.getElementById('cartItemsContainer');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const promoFeedback = document.getElementById('promoFeedback');
+
+        if (badge) badge.textContent = String(totalCount);
+        if (drawerCount) drawerCount.textContent = `${totalCount} منتج`;
+
+        if (!itemsContainer) return;
+
+        if (state.cart.length === 0) {
+          itemsContainer.innerHTML = `
+            <div class="text-center py-10 space-y-2">
+              <div class="text-4xl">🛒</div>
+              <h4 class="text-base font-black text-slate-800 dark:text-white">سلة التسوق فارغة حاليًا</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400">أضف لابتوبك أو اختر من الإكسسوارات المقترحة بالأسفل.</p>
+            </div>
+          `;
+          if (checkoutBtn) checkoutBtn.disabled = true;
+        } else {
+          if (checkoutBtn) checkoutBtn.disabled = false;
+
+          itemsContainer.innerHTML = state.cart.map((entry) => {
+            const prod = PRODUCTS.find((p) => p.id === entry.id);
+            if (!prod) return '';
+            return `
+              <div class="flex items-center gap-3 bg-slate-50 dark:bg-campus-850 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-3">
+                <img
+                  src="${prod.image}"
+                  onerror="window.applyProductFallback(this,'${prod.brand}')"
+                  alt="${prod.name}"
+                  class="w-14 h-14 rounded-xl object-cover shrink-0"
+                />
+                <div class="min-w-0 flex-1">
+                  <span class="text-[10px] font-bold text-slate-400">${prod.type === 'laptop' ? 'لابتوب' : 'إكسسوار'} • ${prod.brand}</span>
+                  <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">${prod.name}</h4>
+                  <div class="text-xs font-black text-blue-600 dark:text-cyan-400 mt-0.5 tabular-nums">
+                    ${formatEGP(prod.price * entry.qty)}
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" data-dec="${prod.id}" class="cart-dec w-7 h-7 rounded-lg bg-white dark:bg-campus-800 border border-slate-300 dark:border-slate-700 font-black text-xs cursor-pointer">−</button>
+                  <span class="w-6 text-center text-xs font-black tabular-nums">${entry.qty}</span>
+                  <button type="button" data-inc="${prod.id}" class="cart-inc w-7 h-7 rounded-lg bg-white dark:bg-campus-800 border border-slate-300 dark:border-slate-700 font-black text-xs cursor-pointer">+</button>
+                  <button type="button" data-rem="${prod.id}" class="cart-rem text-slate-400 hover:text-rose-500 text-xs font-bold px-1.5 py-1 cursor-pointer" title="إزالة">✕</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        renderCartUpsells();
+
+        const { subtotal, discount, total } = calcCartTotals();
+        document.getElementById('subtotalText').textContent = formatEGP(subtotal);
+        document.getElementById('discountText').textContent = `- ${formatEGP(discount)}`;
+        document.getElementById('totalText').textContent = formatEGP(total);
+
+        if (promoFeedback) {
+          if (state.promoActive) {
+            promoFeedback.textContent = '✓ تم تطبيق كوبون STUDENT15 (خصم 15% للطلاب)';
+            promoFeedback.className = 'text-[11px] mt-1 font-bold text-emerald-500';
+          } else {
+            promoFeedback.textContent = '';
+          }
+        }
+      }
+
+      function addToCart(id) {
+        const prod = PRODUCTS.find((p) => p.id === id);
+        if (!prod) return;
+        const found = state.cart.find((c) => c.id === id);
+        if (found) found.qty += 1;
+        else state.cart.push({ id, qty: 1 });
+        savePersistedState();
+        renderCart();
+        showToast(`تمت إضافة «${prod.name}» إلى السلة`);
+      }
+
+      // ===================================================================
+      // 7. مستشار تيك كامبس الذكي (يرشح اللابتوب + الإكسسوارات المناسبة)
+      // ===================================================================
+      function setupChatbot() {
+        const fabBtn = document.getElementById('advisorFabBtn');
+        const closeBtn = document.getElementById('closeAdvisorBtn');
+        const chatWin = document.getElementById('advisorChatWindow');
+        const chatIcon = document.getElementById('fabChatIcon');
+        const closeIcon = document.getElementById('fabCloseIcon');
+        const form = document.getElementById('advisorForm');
+        const input = document.getElementById('advisorInput');
+        const messages = document.getElementById('advisorMessages');
+
+        let open = false;
+
+        function setOpen(nextState) {
+          open = nextState;
+          if (open) {
+            chatWin?.classList.remove('hidden');
+            chatIcon?.classList.add('hidden');
+            closeIcon?.classList.remove('hidden');
+            setTimeout(() => input?.focus(), 80);
+          } else {
+            chatWin?.classList.add('hidden');
+            chatIcon?.classList.remove('hidden');
+            closeIcon?.classList.add('hidden');
+          }
+        }
+
+        function addUserMsg(text) {
+          const div = document.createElement('div');
+          div.className = 'flex items-start justify-end gap-2';
+          const bubble = document.createElement('div');
+          bubble.className = 'bg-blue-600 text-white rounded-2xl rounded-tl-xs px-3.5 py-2.5 shadow-xs leading-relaxed max-w-[82%]';
+          bubble.textContent = text;
+          div.appendChild(bubble);
+          messages?.appendChild(div);
+          if (messages) messages.scrollTop = messages.scrollHeight;
+        }
+
+        function addBotMsg(html) {
+          const div = document.createElement('div');
+          div.className = 'flex items-start gap-2';
+          div.innerHTML = `
+            <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-[11px] font-black shrink-0">AI</div>
+            <div class="bg-white dark:bg-campus-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-2xl rounded-tr-xs px-3.5 py-2.5 shadow-xs leading-relaxed max-w-[88%] space-y-2">
+              ${html}
+            </div>
+          `;
+          messages?.appendChild(div);
+          if (messages) messages.scrollTop = messages.scrollHeight;
+        }
+
+        function getSmartReply(raw) {
+          const q = raw.trim().toLowerCase();
+
+          // ميزانية بالجنيه المصري
+          const numMatch = q.match(/(\d{2,6})/);
+          if (numMatch) {
+            let budget = parseInt(numMatch[1], 10);
+            if (budget < 100) budget *= 1000;
+            const laptops = PRODUCTS.filter((p) => p.type === 'laptop' && p.price <= budget).sort((a, b) => b.price - a.price);
+            const accs = PRODUCTS.filter((p) => p.type === 'accessory' && p.price <= budget).sort((a, b) => b.price - a.price);
+
+            if (laptops.length > 0) {
+              const top = laptops[0];
+              return `
+                <p>ضمن ميزانية <strong>${formatEGP(budget)}</strong>، أفضل ترشيح لك:</p>
+                <div class="bg-slate-50 dark:bg-campus-900 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5">
+                  <div class="font-black text-blue-600 dark:text-cyan-400">${top.name}</div>
+                  <div class="text-[11px] mt-0.5">${top.spec1} • ${top.spec2} • <strong>${formatEGP(top.price)}</strong></div>
+                </div>
+                <p class="text-[11px]">وأنصحك بإضافة <strong>حامل التبريد الألومنيوم</strong> (1,450 ج.م) أو <strong>حقيبة Baseus الذكية</strong> (1,650 ج.م) مع خصم <strong>STUDENT15</strong>!</p>
+              `;
+            }
+            if (accs.length > 0) {
+              const topAcc = accs[0];
+              return `
+                <p>ضمن ميزانية <strong>${formatEGP(budget)}</strong> للإكسسوارات، أرشح لك:</p>
+                <div class="bg-slate-50 dark:bg-campus-900 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5">
+                  <div class="font-black text-cyan-500">${topAcc.name}</div>
+                  <div class="text-[11px] mt-0.5">${topAcc.spec1} • <strong>${formatEGP(topAcc.price)}</strong></div>
+                </div>
+              `;
+            }
+          }
+
+          if (q.includes('اكسسوار') || q.includes('إكسسوار') || q.includes('ماوس') || q.includes('سماعة') || q.includes('حقيبة')) {
+            return `
+              <p>أهم <strong>باقة إكسسوارات</strong> لأي طالب جامعي لدينا:</p>
+              <ul class="list-disc pr-4 space-y-1 text-xs">
+                <li><strong>Anker 7-in-1 USB-C Hub</strong> (2,150 ج.م) — لتوصيل البروجيكتور والفلاشات.</li>
+                <li><strong>حقيبة لابتوب ذكية مضادة للماء</strong> (1,650 ج.م) — لحماية الجهاز في الجامعة.</li>
+                <li><strong>Logitech MX Master 3S</strong> (4,850 ج.م) — أريح ماوس للدراسة والبرمجة.</li>
+              </ul>
+            `;
+          }
+
+          if (q.includes('هندس')) {
+            return `
+              <p>لطلاب <strong>الهندسة</strong> (AutoCAD, SolidWorks, Revit):</p>
+              <ul class="list-disc pr-4 space-y-1 text-xs">
+                <li><strong>لابتوب:</strong> Lenovo IdeaPad Gaming 3 (38,900 ج.م) بكارت RTX 4050.</li>
+                <li><strong>إكسسوار مكمل:</strong> حامل التبريد الألومنيوم بمروحتين (1,450 ج.م) + ماوس Logitech MX Master 3S.</li>
+              </ul>
+            `;
+          }
+
+          if (q.includes('برمج') || q.includes('حاسب') || q.includes('ai') || q.includes('ذكاء')) {
+            return `
+              <p>لطلاب <strong>البرمجة والذكاء الاصطناعي</strong>:</p>
+              <ul class="list-disc pr-4 space-y-1 text-xs">
+                <li><strong>لابتوب:</strong> Lenovo ThinkPad X1 Carbon برام 32GB (62,000 ج.م) أو Dell XPS 13 Plus.</li>
+                <li><strong>إكسسوار مكمل:</strong> كيبورد Keychron K2 الميكانيكي (4,400 ج.م) + هارد Samsung T7 1TB SSD.</li>
+              </ul>
+            `;
+          }
+
+          if (q.includes('طب') || q.includes('تجار') || q.includes('اقتصاد')) {
+            return `
+              <p>لطلاب <strong>الطب والتجارة</strong>:</p>
+              <ul class="list-disc pr-4 space-y-1 text-xs">
+                <li><strong>لابتوب:</strong> MacBook Air M2 (54,900 ج.م) لبطارية 18 ساعة، أو Acer Swift Go 14 (27,500 ج.م).</li>
+                <li><strong>إكسسوار مكمل:</strong> شاحن Ugreen 100W GaN الصغير (2,350 ج.م) + سماعة Sony WH-1000XM5 لعزل الضوضاء.</li>
+              </ul>
+            `;
+          }
+
+          if (q.includes('تصميم') || q.includes('جرافيك') || q.includes('مونتاج')) {
+            return `
+              <p>لتخصصات <strong>التصميم والمونتاج</strong>:</p>
+              <ul class="list-disc pr-4 space-y-1 text-xs">
+                <li><strong>لابتوب:</strong> Asus Zenbook 14 OLED (44,500 ج.م) أو MacBook Pro 14 M3 Pro.</li>
+                <li><strong>إكسسوار مكمل:</strong> هارد Samsung T7 1TB SSD (4,950 ج.م) + Anker 7-in-1 Hub.</li>
+              </ul>
+            `;
+          }
+
+          return `
+            <p>أهلاً بك! لدينا في <strong>تيك كامبس</strong> 12 لابتوب و 12 إكسسوارًا أصليًا.</p>
+            <p class="text-xs">جرّب كتابة تخصصك (<em>هندسة، برمجة، طب، تصميم</em>) أو اسأل عن <em>الإكسسوارات الأساسية</em> أو اكتب ميزانيتك!</p>
+          `;
+        }
+
+        fabBtn?.addEventListener('click', () => setOpen(!open));
+        closeBtn?.addEventListener('click', () => setOpen(false));
+
+        form?.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const val = input?.value.trim();
+          if (!val) return;
+          addUserMsg(val);
+          input.value = '';
+          setTimeout(() => addBotMsg(getSmartReply(val)), 220);
+        });
+
+        document.querySelectorAll('.advisor-chip').forEach((chip) => {
+          chip.addEventListener('click', () => {
+            const p = chip.getAttribute('data-prompt');
+            if (!p) return;
+            setOpen(true);
+            addUserMsg(p);
+            setTimeout(() => addBotMsg(getSmartReply(p)), 220);
+          });
+        });
+      }
+
+      // ===================================================================
+      // 8. تهيئة التطبيق وربط كافة الأحداث
+      // ===================================================================
+      function setMainTypeFilter(newType) {
+        state.mainType = newType;
+        state.subCategory = 'all';
+        state.brand = 'all';
+
+        document.querySelectorAll('.main-type-tab').forEach((btn) => {
+          const active = btn.getAttribute('data-type') === state.mainType;
+          btn.className = active
+            ? 'main-type-tab px-4 py-1.5 rounded-xl font-black bg-blue-600 text-white shadow-xs transition cursor-pointer'
+            : 'main-type-tab px-4 py-1.5 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-campus-800 transition cursor-pointer';
+        });
+
+        renderDynamicFilterPills();
+        renderProductsGrid();
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        loadPersistedState();
+        renderDynamicFilterPills();
+        renderProductsGrid();
+        renderCart();
+        updateWishlistUI();
+        updateCompareUI();
+        setupChatbot();
+
+        if (state.promoActive) {
+          const promoInput = document.getElementById('promoInput');
+          if (promoInput) promoInput.value = 'STUDENT15';
+        }
+
+        // تبديل الوضع الداكن / الفاتح
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const iconSun = document.getElementById('iconSun');
+        const iconMoon = document.getElementById('iconMoon');
+        themeBtn?.addEventListener('click', () => {
+          const isDark = document.documentElement.classList.toggle('dark');
+          iconSun?.classList.toggle('hidden', !isDark);
+          iconMoon?.classList.toggle('hidden', isDark);
+          showToast(isDark ? 'تم تفعيل الوضع التقني الداكن' : 'تم تفعيل الوضع النهاري الفاتح');
+        });
+
+        // تبويبات النوع الرئيسي (الكل / لابتوبات / إكسسوارات)
+        document.querySelectorAll('.main-type-tab').forEach((tab) => {
+          tab.addEventListener('click', () => {
+            setMainTypeFilter(tab.getAttribute('data-type') || 'all');
+          });
+        });
+
+        // أزرار الهيرو السريعة
+        document.getElementById('heroLaptopsBtn')?.addEventListener('click', () => {
+          setMainTypeFilter('laptop');
+          document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
+        });
+        document.getElementById('heroAccessoriesBtn')?.addEventListener('click', () => {
+          setMainTypeFilter('accessory');
+          document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // الفلاتر الفرعية والماركات (Event Delegation)
+        document.getElementById('subCategoryRow')?.addEventListener('click', (e) => {
+          const pill = e.target.closest('.sub-pill');
+          if (!pill) return;
+          state.subCategory = pill.getAttribute('data-sub') || 'all';
+          renderDynamicFilterPills();
+          renderProductsGrid();
+        });
+
+        document.getElementById('brandsRow')?.addEventListener('click', (e) => {
+          const pill = e.target.closest('.brand-pill');
+          if (!pill) return;
+          state.brand = pill.getAttribute('data-brand') || 'all';
+          renderDynamicFilterPills();
+          renderProductsGrid();
+        });
+
+        // شريط الميزانية
+        const budgetSlider = document.getElementById('budgetSlider');
+        const budgetLabel = document.getElementById('budgetLabel');
+        budgetSlider?.addEventListener('input', () => {
+          state.maxBudget = Number(budgetSlider.value);
+          if (budgetLabel) budgetLabel.textContent = formatEGP(state.maxBudget);
+          renderProductsGrid();
+        });
+
+        // الترتيب
+        document.getElementById('sortSelect')?.addEventListener('change', (e) => {
+          state.sort = e.target.value;
+          renderProductsGrid();
+        });
+
+        // البحث الفوري
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        searchInput?.addEventListener('input', () => {
+          state.search = searchInput.value;
+          clearSearchBtn?.classList.toggle('hidden', !state.search.trim());
+          renderProductsGrid();
+        });
+        clearSearchBtn?.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          state.search = '';
+          clearSearchBtn.classList.add('hidden');
+          renderProductsGrid();
+        });
+
+        // إعادة ضبط الفلاتر
+        document.getElementById('resetFiltersBtn')?.addEventListener('click', () => {
+          state.maxBudget = 85000;
+          state.sort = 'featured';
+          state.search = '';
+          if (searchInput) searchInput.value = '';
+          clearSearchBtn?.classList.add('hidden');
+          if (budgetSlider) budgetSlider.value = '85000';
+          if (budgetLabel) budgetLabel.textContent = formatEGP(85000);
+          document.getElementById('sortSelect').value = 'featured';
+          setMainTypeFilter('all');
+          showToast('تمت إعادة ضبط جميع الفلاتر');
+        });
+
+        // تفاعلات البطاقات
+        document.getElementById('productsGrid')?.addEventListener('click', (e) => {
+          const addBtn = e.target.closest('.btn-add-cart');
+          if (addBtn) return addToCart(addBtn.getAttribute('data-add'));
+
+          const qvBtn = e.target.closest('.btn-quick-view');
+          if (qvBtn) return openQuickView(qvBtn.getAttribute('data-qv'));
+
+          const cmpBtn = e.target.closest('.btn-compare');
+          if (cmpBtn) return toggleCompare(cmpBtn.getAttribute('data-cmp'));
+
+          const wishBtn = e.target.closest('.btn-wish');
+          if (wishBtn) return toggleWishlist(wishBtn.getAttribute('data-wish'));
+        });
+
+        // نافذة Quick-View
+        document.getElementById('closeQuickViewBtn')?.addEventListener('click', closeQuickView);
+        document.getElementById('quickViewModal')?.addEventListener('click', (e) => {
+          if (e.target.id === 'quickViewModal') closeQuickView();
+        });
+        document.getElementById('qvAddToCartBtn')?.addEventListener('click', () => {
+          if (activeQuickViewId) {
+            addToCart(activeQuickViewId);
+            closeQuickView();
+          }
+        });
+        document.getElementById('qvCompareBtn')?.addEventListener('click', () => {
+          if (activeQuickViewId) toggleCompare(activeQuickViewId);
+        });
+        document.getElementById('qvWishBtn')?.addEventListener('click', () => {
+          if (activeQuickViewId) toggleWishlist(activeQuickViewId);
+        });
+
+        // نافذة المفضلة
+        const wishlistModal = document.getElementById('wishlistModal');
+        document.getElementById('openWishlistBtn')?.addEventListener('click', () => {
+          renderWishlistModal();
+          wishlistModal?.classList.remove('hidden');
+          wishlistModal?.classList.add('flex');
+        });
+        document.getElementById('closeWishlistBtn')?.addEventListener('click', () => {
+          wishlistModal?.classList.add('hidden');
+          wishlistModal?.classList.remove('flex');
+        });
+        wishlistModal?.addEventListener('click', (e) => {
+          if (e.target.id === 'wishlistModal') {
+            wishlistModal.classList.add('hidden');
+            wishlistModal.classList.remove('flex');
+          }
+          const addId = e.target.closest('[data-wish-add]')?.getAttribute('data-wish-add');
+          if (addId) addToCart(addId);
+          const remId = e.target.closest('[data-wish-rem]')?.getAttribute('data-wish-rem');
+          if (remId) toggleWishlist(remId);
+        });
+
+        // نافذة وشريط المقارنة
+        document.getElementById('navCompareBtn')?.addEventListener('click', openCompareModal);
+        document.getElementById('openCompareModalBtn')?.addEventListener('click', openCompareModal);
+        document.getElementById('closeCompareModalBtn')?.addEventListener('click', closeCompareModal);
+        document.getElementById('compareModal')?.addEventListener('click', (e) => {
+          if (e.target.id === 'compareModal') closeCompareModal();
+        });
+        const clearAllCompare = () => {
+          state.compareIds = [];
+          savePersistedState();
+          updateCompareUI();
+          renderProductsGrid();
+          closeCompareModal();
+          showToast('تم مسح قائمة المقارنة');
+        };
+        document.getElementById('clearCompareBarBtn')?.addEventListener('click', clearAllCompare);
+        document.getElementById('clearCompareModalBtn')?.addEventListener('click', clearAllCompare);
+
+        // السلة المنزلقة
+        const openCart = () => document.getElementById('cartOverlay')?.classList.remove('hidden');
+        const closeCart = () => document.getElementById('cartOverlay')?.classList.add('hidden');
+        document.getElementById('openCartBtn')?.addEventListener('click', openCart);
+        document.getElementById('closeCartBtn')?.addEventListener('click', closeCart);
+        document.getElementById('cartOverlay')?.addEventListener('click', (e) => {
+          if (e.target.id === 'cartOverlay') closeCart();
+        });
+
+        document.getElementById('cartItemsContainer')?.addEventListener('click', (e) => {
+          const inc = e.target.closest('.cart-inc')?.getAttribute('data-inc');
+          const dec = e.target.closest('.cart-dec')?.getAttribute('data-dec');
+          const rem = e.target.closest('.cart-rem')?.getAttribute('data-rem');
+
+          if (inc) {
+            const it = state.cart.find((c) => c.id === inc);
+            if (it) it.qty += 1;
+            savePersistedState();
+            renderCart();
+          } else if (dec) {
+            const it = state.cart.find((c) => c.id === dec);
+            if (it) {
+              if (it.qty > 1) it.qty -= 1;
+              else state.cart = state.cart.filter((c) => c.id !== dec);
+            }
+            savePersistedState();
+            renderCart();
+          } else if (rem) {
+            state.cart = state.cart.filter((c) => c.id !== rem);
+            savePersistedState();
+            renderCart();
+          }
+        });
+
+        // إضافة الإكسسوارات المقترحة داخل السلة
+        document.getElementById('cartUpsellList')?.addEventListener('click', (e) => {
+          const id = e.target.closest('[data-upsell-add]')?.getAttribute('data-upsell-add');
+          if (id) addToCart(id);
+        });
+
+        // كوبون STUDENT15
+        const promoInput = document.getElementById('promoInput');
+        document.getElementById('applyPromoBtn')?.addEventListener('click', () => {
+          const code = (promoInput?.value || '').trim().toUpperCase();
+          if (code === 'STUDENT15') {
+            state.promoActive = true;
+            savePersistedState();
+            renderCart();
+            showToast('تم تفعيل خصم الطلاب 15% بنجاح!');
+          } else {
+            state.promoActive = false;
+            savePersistedState();
+            renderCart();
+            showToast('الكود غير صحيح — أدخل STUDENT15');
+          }
+        });
+
+        document.getElementById('heroPromoBtn')?.addEventListener('click', () => {
+          state.promoActive = true;
+          if (promoInput) promoInput.value = 'STUDENT15';
+          savePersistedState();
+          renderCart();
+          openCart();
+          showToast('تم تفعيل كوبون STUDENT15 داخل السلة');
+        });
+
+        // إتمام الطلب وإيصال المحافظات المصرية
+        const checkoutModal = document.getElementById('checkoutModal');
+        const formStep = document.getElementById('checkoutFormStep');
+        const successStep = document.getElementById('checkoutSuccessStep');
+
+        document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+          if (state.cart.length === 0) return;
+          const { total } = calcCartTotals();
+          document.getElementById('checkoutFinalAmount').textContent = formatEGP(total);
+          formStep?.classList.remove('hidden');
+          successStep?.classList.add('hidden');
+          closeCart();
+          checkoutModal?.classList.remove('hidden');
+          checkoutModal?.classList.add('flex');
+        });
+
+        document.getElementById('cancelCheckoutBtn')?.addEventListener('click', () => {
+          checkoutModal?.classList.add('hidden');
+          checkoutModal?.classList.remove('flex');
+        });
+
+        document.getElementById('orderConfirmForm')?.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('studentNameInput').value.trim();
+          const gov = document.getElementById('governorateSelect').value;
+          const phone = document.getElementById('studentPhoneInput').value.trim();
+          const uni = document.getElementById('studentUniInput').value.trim();
+          const { subtotal, discount, total } = calcCartTotals();
+          const ref = `#TC-${Math.floor(10000 + Math.random() * 90000)}`;
+
+          const purchasedItemsHtml = state.cart.map((c) => {
+            const p = PRODUCTS.find((item) => item.id === c.id);
+            return p ? `<div class="flex justify-between"><span>${p.name} (×${c.qty})</span><strong>${formatEGP(p.price * c.qty)}</strong></div>` : '';
+          }).join('');
+
+          document.getElementById('orderRefBadge').textContent = `رقم الإيصال: ${ref}`;
+          document.getElementById('orderReceiptBox').innerHTML = `
+            <div class="border-b border-slate-200 dark:border-slate-700 pb-2 space-y-1">
+              <div><strong>الطالب:</strong> ${name} (${phone})</div>
+              <div><strong>الوجهة:</strong> ${gov} — ${uni}</div>
+            </div>
+            <div class="space-y-1 py-1">${purchasedItemsHtml}</div>
+            <div class="border-t border-slate-200 dark:border-slate-700 pt-2 space-y-1">
+              <div class="flex justify-between text-slate-500"><span>المجموع الفرعي:</span><span>${formatEGP(subtotal)}</span></div>
+              <div class="flex justify-between text-emerald-500"><span>خصم الطلاب:</span><span>- ${formatEGP(discount)}</span></div>
+              <div class="flex justify-between text-sm font-black text-blue-600 dark:text-cyan-400"><span>الإجمالي المدفوع:</span><span>${formatEGP(total)}</span></div>
+            </div>
+          `;
+
+          state.cart = [];
+          state.promoActive = false;
+          if (promoInput) promoInput.value = '';
+          savePersistedState();
+          renderCart();
+
+          formStep?.classList.add('hidden');
+          successStep?.classList.remove('hidden');
+        });
+
+        document.getElementById('doneCheckoutBtn')?.addEventListener('click', () => {
+          checkoutModal?.classList.add('hidden');
+          checkoutModal?.classList.remove('flex');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
